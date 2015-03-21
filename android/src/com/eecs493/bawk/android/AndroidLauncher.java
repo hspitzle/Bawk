@@ -12,6 +12,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         config.useCompass = false;
+        config.useWakelock = true;
 		initialize(new BawkGame(), config);
 	}
 }
