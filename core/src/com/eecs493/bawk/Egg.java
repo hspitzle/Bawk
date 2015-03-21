@@ -13,11 +13,13 @@ public class Egg extends Sprite
     private Texture texture;
     private boolean vertical;//true is vertical, false is horizontal
     private Color color;
+    private int street;
 
     float rotation;
 
-    public Egg(boolean vertical_, Color color_){
+    public Egg(boolean vertical_, Color color_, int street_){
         super(new Texture("egg_blue.png"));
+        street = street_;
         vertical = vertical_;
 
        color = color_;
@@ -42,9 +44,10 @@ public class Egg extends Sprite
 
     }
 
-    public Egg(boolean vertical_)
+    public Egg(boolean vertical_, int street_)
     {
         super(new Texture("egg_blue.png"));
+        street = street_;
         vertical = vertical_;
 
         //generate a random int between 0 and 3
@@ -85,7 +88,7 @@ public class Egg extends Sprite
         return vertical;
     }
 
-    private void shiftToNest(int street){
+    public void shiftToNest(int street_){
 
     }
 
