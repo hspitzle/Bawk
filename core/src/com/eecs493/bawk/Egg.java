@@ -89,7 +89,7 @@ public class Egg extends Sprite
     }
 
     public void shiftToNest(int street_){
-
+        
     }
 
     @Override
