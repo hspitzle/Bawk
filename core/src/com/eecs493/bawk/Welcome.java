@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +26,8 @@ public class Welcome implements Screen {
     private Texture backgroundImage;
     private Rectangle background;
 
+    //Egg egg;
+
     public Welcome(BawkGame game_){
         game = game_;
     }
@@ -40,7 +43,7 @@ public class Welcome implements Screen {
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
-
+        //egg = new Egg(false);
 
     }
 
@@ -56,6 +59,10 @@ public class Welcome implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+
+
+        //egg.draw(batch);
+
         batch.end();
     }
 
