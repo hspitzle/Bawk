@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.awt.Point;
+
 //import java.awt.Rectangle;
 
 /**
@@ -44,7 +46,10 @@ public class Play implements Screen {
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
-        gameplay = new Rectangle()
+//        System.out.println(grid.x + " " + grid.y);
+        gameplay = new Rectangle(game.getNestX(), game.getNestY(),
+                                 gameplayImage.getWidth(),
+                                 gameplayImage.getWidth());
 
         bawk = new Bawk();
 
@@ -64,8 +69,10 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+        batch.draw(gameplayImage, gameplay.x, gameplay.y);
+
         bawk.draw(batch);
-        //batch.draw(bawk.getTexture(), bawk.getX(), bawk.getY());
+
         batch.end();
     }
 

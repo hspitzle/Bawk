@@ -19,16 +19,14 @@ public class Bawk extends Sprite
 
     float rotation;
 
-    //SpriteBatch chicken;
-
     public Bawk()
     {
         super(new Texture("chicken_yellow.png"));
         texture = new Texture("chicken_yellow.png");
         setTexture(texture);
         System.out.println("this is the width");
-        Point point = Utility.getLocation(5, 5);
-        setPosition(point.x, point.y);
+
+        setPosition(188, 436);
         setSize(texture.getWidth(), texture.getHeight());
         System.out.println(getWidth());
         System.out.println(getX() + " " + getY());

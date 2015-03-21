@@ -7,16 +7,22 @@ import java.awt.Point;
  */
 public class Utility
 {
-    public enum Color {RED, GREEN, YELLOW, BLUE};
-
-
-
     public static Point gridLocation()
     {
-        return new Point(4, 200);
+        return new Point(0, 200);
     }
 
 
+
+    public static int getNestX()
+    {
+        return 0;
+    }
+
+    public static int getNestY()
+    {
+        return 200;
+    }
 
     public static Point getLocation(int row, int col)
     {
@@ -27,7 +33,7 @@ public class Utility
         final int y[] = {437, 402, 367, 332, 284, 236, 188, 140, 105, 70, 35, 0};
 
         Point loc = new Point();
-        loc.setLocation(x[col] + gridLocation().getX(), y[row] + gridLocation().getY());
+        loc.setLocation(x[col] + getNestX(), y[row] + getNestY());
         return loc;
     }
 
