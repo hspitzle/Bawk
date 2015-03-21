@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by Hayden on 3/20/2015.
  */
-public class Welcome implements Screen {
+public class HowTo implements Screen {
 
     private BawkGame game;
 
@@ -25,7 +25,7 @@ public class Welcome implements Screen {
     private Texture backgroundImage;
     private Rectangle background;
 
-    public Welcome(BawkGame game_){
+    public HowTo(BawkGame game_){
         game = game_;
     }
 
@@ -65,8 +65,6 @@ public class Welcome implements Screen {
         drawBatch();
 
         //updating & input detection
-        if(Gdx.input.isTouched())
-            game.setScreen(game.play);
 
     }
 

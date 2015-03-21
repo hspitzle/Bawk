@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by Hayden on 3/20/2015.
  */
-public class Welcome implements Screen {
+public class Play implements Screen {
 
     private BawkGame game;
 
@@ -25,7 +25,7 @@ public class Welcome implements Screen {
     private Texture backgroundImage;
     private Rectangle background;
 
-    public Welcome(BawkGame game_){
+    public Play(BawkGame game_){
         game = game_;
     }
 
@@ -33,7 +33,7 @@ public class Welcome implements Screen {
     public void show()
     {
         System.out.println("Show");
-        backgroundImage = new Texture("titlescreen.png");
+        backgroundImage = new Texture("background.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
@@ -65,8 +65,6 @@ public class Welcome implements Screen {
         drawBatch();
 
         //updating & input detection
-        if(Gdx.input.isTouched())
-            game.setScreen(game.play);
 
     }
 

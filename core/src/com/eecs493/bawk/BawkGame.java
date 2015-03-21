@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BawkGame extends Game {
     Welcome welcome;
-//    Play myGame;
-//    GameOver gameOver;
+    HowTo howTo;
+    Options options;
+    Play play;
+    GameOver gameOver;
 
     private final int width = 480;
     private final int height = 800;
@@ -17,10 +19,11 @@ public class BawkGame extends Game {
     @Override
     public void create()
     {
-//        prefs = new Gdx.getPreferences("My Preferences");
-//        myGame = new Play(this);
         welcome = new Welcome(this);
-//        gameOver = new GameOver(this);
+        howTo = new HowTo(this);
+        options = new Options(this);
+        play = new Play(this);
+        gameOver = new GameOver(this);
         setScreen(welcome);
     }
 
