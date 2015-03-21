@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.awt.Point;
+
 /**
  * Created by Hayden on 3/20/2015.
  */
@@ -21,11 +23,12 @@ public class Bawk extends Sprite
 
     public Bawk()
     {
-        super(new Texture("chicken.png"));
-        texture = new Texture("chicken.png");
+        super(new Texture("chicken_yellow.png"));
+        texture = new Texture("chicken_yellow.png");
         setTexture(texture);
         System.out.println("this is the width");
-        setPosition(200, 400);
+        Point point = Utility.getLocation(5, 5);
+        setPosition(point.x, point.y);
         setSize(texture.getWidth(), texture.getHeight());
         System.out.println(getWidth());
         System.out.println(getX() + " " + getY());

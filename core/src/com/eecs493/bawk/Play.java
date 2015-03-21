@@ -23,7 +23,9 @@ public class Play implements Screen {
     private SpriteBatch batch;
 
     private Texture backgroundImage;
+    private Texture gameplayImage;
     private Rectangle background;
+    private Rectangle gameplay;
     private Bawk bawk;
 
     public Play(BawkGame game_){
@@ -34,13 +36,15 @@ public class Play implements Screen {
     public void show()
     {
         System.out.println("Show");
-        backgroundImage = new Texture("background.png");
+        backgroundImage = new Texture("gamebackground.png");
+        gameplayImage = new Texture("gameplayarea.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
+        gameplay = new Rectangle()
 
         bawk = new Bawk();
 
