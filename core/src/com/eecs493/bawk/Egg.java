@@ -92,13 +92,13 @@ public class Egg extends Sprite
         int quad = street/4;
         switch(quad){
             case 0:
-                setPosition(getX(), getY()+35);
+                setPosition(getX(), getY()-35);
                 break;
             case 1:
                 setPosition(getX()-35, getY());
                 break;
             case 2:
-                setPosition(getX(), getY()-35);
+                setPosition(getX(), getY()+35);
                 break;
             case 3:
                 setPosition(getX()+35, getY());

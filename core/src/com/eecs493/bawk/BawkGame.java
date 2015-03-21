@@ -65,15 +65,23 @@ public class BawkGame extends Game
         return loc;
     }
 
-    public int getLocationX()
+    public int getLocationX(int col)
     {
+        if(col > 11)
+            return -1;
 
-        return 0;
+        final int x[] = {0, 35, 70, 105, 140, 188, 236, 284, 332, 367, 402, 437};
+
+        return x[col] + getNestX();
     }
 
-    public int getLocationY()
+    public int getLocationY(int row)
     {
+        if(row > 11)
+            return -1;
 
-        return 0;
+        final int y[] = {437, 402, 367, 332, 284, 236, 188, 140, 105, 70, 35, 0};
+
+        return y[row] + getNestY();
     }
 }
