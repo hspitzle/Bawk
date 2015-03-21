@@ -24,6 +24,7 @@ public class Play implements Screen {
 
     private Texture backgroundImage;
     private Rectangle background;
+    private Bawk bawk;
 
     public Play(BawkGame game_){
         game = game_;
@@ -41,6 +42,9 @@ public class Play implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
+        bawk = new Bawk();
+
+
 
     }
 
@@ -56,6 +60,8 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+        bawk.draw(batch);
+        //batch.draw(bawk.getTexture(), bawk.getX(), bawk.getY());
         batch.end();
     }
 
@@ -65,6 +71,11 @@ public class Play implements Screen {
         drawBatch();
 
         //updating & input detection
+        if (Gdx.input.isTouched())
+        {
+            Gdx.app.log("my app", "screen touched");
+            bawk.rotate90(true);
+        }
 
     }
 
