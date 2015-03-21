@@ -9,6 +9,8 @@ public class Utility
 {
     public enum Color {RED, GREEN, YELLOW, BLUE};
 
+
+
     private static Point gridLocation()
     {
         return new Point(4, 200);
