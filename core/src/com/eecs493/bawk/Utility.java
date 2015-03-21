@@ -11,7 +11,7 @@ public class Utility
 
 
 
-    private static Point gridLocation()
+    public static Point gridLocation()
     {
         return new Point(4, 200);
     }
