@@ -37,7 +37,6 @@ public class Welcome implements Screen {
 
     private Texture backgroundImage;
     private Rectangle background;
-<<<<<<< HEAD
     private ImageButton howToButton;
     private ImageButton playButton;
     private ImageButton settingsButton;
@@ -46,11 +45,7 @@ public class Welcome implements Screen {
     private BitmapFont font;
     private TextButton.TextButtonStyle textButtonStyle;
     private Stage stage;
-=======
 
-    //Egg egg;
-
->>>>>>> 3c5eb587f0401f275ea2a64c7999b50a65712df2
     public Welcome(BawkGame game_){
         game = game_;
     }
@@ -89,12 +84,7 @@ public class Welcome implements Screen {
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
-<<<<<<< HEAD
         backgroundImage = new Texture("titlescreen.png");
-
-=======
-        //egg = new Egg(false);
->>>>>>> 3c5eb587f0401f275ea2a64c7999b50a65712df2
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -167,12 +157,6 @@ public class Welcome implements Screen {
 
         batch.draw(backgroundImage, background.x, background.y);
 
-<<<<<<< HEAD
-=======
-
-        //egg.draw(batch);
-
->>>>>>> 3c5eb587f0401f275ea2a64c7999b50a65712df2
         batch.end();
     }
 

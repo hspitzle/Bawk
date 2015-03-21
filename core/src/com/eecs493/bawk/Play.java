@@ -74,7 +74,7 @@ public class Play implements Screen {
 
 
         score = 0;
-        eggTimer = 5000;
+        eggTimer = 3000;
         lastLaser = 0;
         lastEggTime = TimeUtils.millis();
 
@@ -168,7 +168,7 @@ public class Play implements Screen {
             egg.shiftToNest();
 
         Egg newEgg = new Egg(vertical, num);
-        newEgg.setPosition(x, y);
+        newEgg.setPosition(x+4, y+4); // +4 to fix centering
         eggs.get(num).add(newEgg);
 
     }
