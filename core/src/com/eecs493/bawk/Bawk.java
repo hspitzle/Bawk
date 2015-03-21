@@ -20,6 +20,9 @@ public class Bawk extends Sprite
 
     private Color color;
 
+    private Sprite laser;
+
+
     float rotation;
 
     public Bawk()
@@ -35,6 +38,13 @@ public class Bawk extends Sprite
         setSize(textureYellow.getWidth(), textureYellow.getHeight());
         System.out.println(getWidth());
         System.out.println(getX() + " " + getY());
+
+    }
+
+    public void shoot()
+    {
+        laser = new Sprite(new Texture("egg_blue.png"));
+        laser.setPosition(getX(), getY());
     }
 
     @Override
