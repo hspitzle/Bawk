@@ -33,7 +33,7 @@ public class HowTo implements Screen {
     public void show()
     {
         System.out.println("Show");
-        backgroundImage = new Texture("titlescreen.png");
+        backgroundImage = new Texture("howtoscreen.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
@@ -63,7 +63,8 @@ public class HowTo implements Screen {
     public void render(float delta)
     {
         drawBatch();
-
+        if(Gdx.input.isTouched())
+            game.setScreen(game.welcome);
         //updating & input detection
 
     }

@@ -2,13 +2,26 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 //import java.awt.Rectangle;
 
@@ -24,30 +37,117 @@ public class Welcome implements Screen {
 
     private Texture backgroundImage;
     private Rectangle background;
-
+    private ImageButton howToButton;
+    private ImageButton playButton;
+    private ImageButton settingsButton;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
+    private BitmapFont font;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private Stage stage;
     public Welcome(BawkGame game_){
         game = game_;
     }
 
+    private void createBasicSkin(){
+        //Create a font
+        BitmapFont font = new BitmapFont();
+        font.setScale(5, 7);
+        font.setColor( Color.GREEN);
+        skin = new Skin();
+        skin.add("default", font);
+
+       //Create a texture
+        Pixmap pixmap = new Pixmap((int)Gdx.graphics.getWidth()/4,(int)Gdx.graphics.getHeight()/10, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+
+        skin.add("background",new Texture(pixmap));
+        //skin.add("background", backgroundImage);
+
+        //Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
+        textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+    }
     @Override
     public void show()
     {
-        System.out.println("Show");
-        backgroundImage = new Texture("titlescreen.png");
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
+        backgroundImage = new Texture("titlescreen.png");
 
+
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        createBasicSkin();
+        System.out.println("Show");
+
+        Texture playTextureUp = new Texture("play.png");
+        Texture playTextureDown = new Texture("playpressed.png");
+        SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
+        SpriteDrawable playDrawableDown = new SpriteDrawable(new Sprite(playTextureDown));
+        playButton = new ImageButton(playDrawableUp, playDrawableDown);
+        playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
+        //playButton = new TextButton("Play!", skin); // Use the initialized skin
+        playButton.setPosition(Gdx.graphics.getWidth()/6 , Gdx.graphics.getHeight()/7);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        playButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(game.play);
+            }
+        });
+        Texture helpTextureUp = new Texture("help.png");
+        Texture helpTextureDown = new Texture("helppressed.png");
+        SpriteDrawable helpDrawableUp = new SpriteDrawable(new Sprite(helpTextureUp));
+        SpriteDrawable helpDrawableDown = new SpriteDrawable(new Sprite(helpTextureDown));
+        howToButton = new ImageButton(helpDrawableUp, helpDrawableDown);
+        //howToButton = new TextButton("Help!", skin); // Use the initialized skin
+        howToButton.setPosition(Gdx.graphics.getWidth()/6 , Gdx.graphics.getHeight()/7 - playButton.getHeight() - 10);
+        //howToButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        howToButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                //backgroundImage = new Texture ("howtoscreen.png");
+                game.setScreen(game.howTo);
+            }
+        });
+
+        Texture settingsTextureUp = new Texture("settings.png");
+        Texture settingsTextureDown = new Texture("settingspressed.png");
+        SpriteDrawable settingsDrawableUp = new SpriteDrawable(new Sprite(settingsTextureUp));
+        SpriteDrawable settingsDrawableDown = new SpriteDrawable(new Sprite(settingsTextureDown));
+        settingsButton = new ImageButton(settingsDrawableUp, settingsDrawableDown);
+        //playButton = new TextButton("Play!", skin); // Use the initialized skin
+        settingsButton.setPosition(Gdx.graphics.getWidth()/6 + 25, Gdx.graphics.getHeight()/7- playButton.getHeight() - 10);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        settingsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+               // game.setScreen(game.play);
+            }
+        });
+
+        stage.addActor(howToButton);
+        stage.addActor(playButton);
+        stage.addActor(settingsButton);
 
     }
 
     private void drawBatch()
     {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
@@ -56,18 +156,24 @@ public class Welcome implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+
         batch.end();
     }
 
     @Override
     public void render(float delta)
     {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         drawBatch();
+        stage.act();
+        stage.draw();
 
+        //drawBatch();
         //updating & input detection
-        if(Gdx.input.isTouched())
+        /*if(Gdx.input.isTouched())
             game.setScreen(game.play);
-
+        */
     }
 
     @Override
