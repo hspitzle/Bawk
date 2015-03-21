@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class BawkGame extends Game {
+public class BawkGame extends Game
+{
+
     Welcome welcome;
     HowTo howTo;
     Options options;
