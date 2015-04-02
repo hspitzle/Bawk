@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Random;
@@ -37,7 +38,7 @@ public class Play implements Screen {
     private Rectangle gameplay;
     private Bawk bawk;
 
-    private ArrayList<ArrayList<Egg>> eggs;
+    private Array<Array<Egg>> eggs;
     private int score;
     private int eggTimer;
     private long lastLaser;
@@ -66,9 +67,9 @@ public class Play implements Screen {
 
         bawk = new Bawk();
 
-        eggs = new ArrayList<ArrayList<Egg>>();
+        eggs = new Array<Array<Egg>>();
         for(int i=0; i<16; ++i){
-            eggs.add(new ArrayList<Egg>());
+            eggs.add(new Array<Egg>());
         }
 
 
@@ -97,9 +98,14 @@ public class Play implements Screen {
 
         bawk.draw(batch);
 
-        for(ArrayList<Egg> arr : eggs)
+        for(Array<Egg> arr : eggs)
             for(Egg egg : arr)
                 egg.draw(batch);
+
+        for(Laser laser : bawk.lasers) {
+            laser.update();
+            laser.draw(batch);
+        }
 
         batch.end();
     }
@@ -113,15 +119,12 @@ public class Play implements Screen {
 
         updateBawkLocation();
 
-        if (Gdx.input.isTouched())
-        {
-            Gdx.app.log("my app", "screen touched");
-            bawk.rotate90(true);
-        }
+        detectOverlaps();
+
 
         long myShotTimer = 180;
         if(Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer) {
-//            bawk.shoot();
+            bawk.shoot();
             lastLaser = TimeUtils.millis();
         }
 
@@ -134,12 +137,37 @@ public class Play implements Screen {
 
     }
 
+    private void detectOverlaps()
+    {
+        for(Array<Egg> arr : eggs) {
+            for (Egg egg : arr) {
+                for (Laser j : bawk.lasers) {
+                    if (j.getBoundingRectangle().overlaps(egg.getBoundingRectangle())) {
+                        bawk.lasers.removeValue(j, false); //destroy the laser
+                        if (bawk.getColor() == egg.getColor()) //the laser and the colliding egg have the same color
+                        {
+                            arr.removeValue(egg, false); //destroy the egg
+                        }
+                        else //laser and egg are different colors, so swap them
+                        {
+                            Color temp = egg.getColor();
+                            egg.setColor(bawk.getColor());
+                            bawk.setColor(temp);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
     private void spawnEgg()
     {
         Random rand = new Random();
         int num = rand.nextInt(16);
 
-        if(eggs.get(num).size() == 4)
+        if(eggs.get(num).size == 4)
             game.setScreen(game.gameOver);
 
         boolean vertical = true;
@@ -179,16 +207,24 @@ public class Play implements Screen {
         float tilt = Gdx.input.getAccelerometerX();
         float boundary = 6.5f;
         int movement = 48;
-        if(tilt > boundary)
+        if(tilt > boundary) {
             bawk.setX(bawk.getX() - movement);
-        else if(tilt < -1f*boundary)
+            bawk.leftRotate();
+        }
+        else if(tilt < -1f*boundary) {
             bawk.setX(bawk.getX() + movement);
+            bawk.rightRotate();
+        }
 
         tilt = Gdx.input.getAccelerometerY();
-        if(tilt > boundary)
+        if(tilt > boundary) {
             bawk.setY(bawk.getY() - movement);
-        else if(tilt < -1f*boundary)
+            bawk.downRotate();
+        }
+        else if(tilt < -1f*boundary) {
             bawk.setY(bawk.getY() + movement);
+            bawk.upRotate();
+        }
 
 //        keep within x bounds
         if(bawk.getX() > game.getLocationX(7))
