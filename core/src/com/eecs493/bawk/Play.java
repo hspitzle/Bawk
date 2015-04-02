@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -142,14 +143,24 @@ public class Play implements Screen {
             for (Egg egg : arr) {
                 for (Laser j : bawk.lasers) {
                     if (j.getBoundingRectangle().overlaps(egg.getBoundingRectangle())) {
-                        bawk.lasers.removeValue(j, false);
-                        arr.removeValue(egg, false);
+                        bawk.lasers.removeValue(j, false); //destroy the laser
+                        if (bawk.getColor() == egg.getColor()) //the laser and the colliding egg have the same color
+                        {
+                            arr.removeValue(egg, false); //destroy the egg
+                        }
+                        else //laser and egg are different colors, so swap them
+                        {
+                            Color temp = egg.getColor();
+                            egg.setColor(bawk.getColor());
+                            bawk.setColor(temp);
+                        }
 
                     }
                 }
             }
         }
     }
+
 
     private void spawnEgg()
     {
