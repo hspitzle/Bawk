@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Laser extends Sprite {
 
     private int direction;
-    private final int moveTime = 5;
+    private final int speed = 5;
 
     public Laser(){ }
 
@@ -40,7 +40,7 @@ public class Laser extends Sprite {
 
         direction = rotation/90;
 
-        if (direction % 90 == 0) //up or down configuration
+        if (direction % 2 == 0) //up or down configuration
         {
             rotate90(true); //rotate the laser so it's facing up/down
         }
@@ -55,19 +55,19 @@ public class Laser extends Sprite {
 
         if (direction == Direction.RIGHT.getValue()) //laser should move to the right
         {
-            setX(++curX);
+            setX(curX + speed);
         }
         else if (direction == Direction.DOWN.getValue()) //laser should move down
         {
-            setY(--curY);
+            setY(curY - speed);
         }
         else if (direction == Direction.LEFT.getValue()) //laser should move to the left
         {
-            setX(--curX);
+            setX(curX - speed);
         }
         else if (direction == Direction.UP.getValue()) //laser should move up
         {
-            setY(++curY);
+            setY(curY + speed);
         }
     }
 }
