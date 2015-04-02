@@ -1,8 +1,8 @@
+package com.eecs493.bawk;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-
-
 
 /**
  * Created by Hayden on 4/2/2015.
@@ -25,10 +25,8 @@ public class Laser extends Sprite {
         else if(color == Color.YELLOW)
             setTexture(new Texture("laser_yellow.png"));
 
-        direction = (Direction) rotation/90;
+        direction = rotation/90;
 
         setPosition(x, y);
     }
-
-
 }

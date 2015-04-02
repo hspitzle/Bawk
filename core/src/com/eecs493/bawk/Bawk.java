@@ -43,8 +43,9 @@ public class Bawk extends Sprite
 
     public void shoot()
     {
-        laser = new Sprite(new Texture("egg_blue.png"));
-        laser.setPosition(getX(), getY());
+//        laser = new Sprite(new Texture("egg_blue.png"));
+//        laser.setPosition(getX(), getY());
+        Laser newLaser = new Laser();
     }
 
     @Override
