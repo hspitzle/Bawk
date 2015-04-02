@@ -43,6 +43,7 @@ public class Laser extends Sprite {
         if (direction % 2 == 0) //up or down configuration
         {
             rotate90(true); //rotate the laser so it's facing up/down
+            setSize(getTexture().getHeight(), getTexture().getWidth());
         }
 
         setPosition(x, y);
