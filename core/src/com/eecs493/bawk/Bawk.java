@@ -43,8 +43,10 @@ public class Bawk extends Sprite
 
     public void shoot()
     {
-//        laser = new Sprite(new Texture("egg_blue.png"));
-//        laser.setPosition(getX(), getY());
+        int x = 100, y = 100;
+        //find position based on Bawk;
+
+
         Laser newLaser = new Laser();
     }
 

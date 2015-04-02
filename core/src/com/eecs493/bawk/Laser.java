@@ -29,4 +29,8 @@ public class Laser extends Sprite {
 
         setPosition(x, y);
     }
+
+    public void update(){
+
+    }
 }
