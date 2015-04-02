@@ -10,10 +10,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Laser extends Sprite {
 
     private int direction;
+    private final int moveTime = 5;
 
     public Laser(){ }
 
-    public enum Direction { DOWN, RIGHT, UP, LEFT};
+
+    public enum Direction {
+        DOWN(0), RIGHT(1), UP(2), LEFT(3);
+        private int value;
+
+        private Direction(int value) {
+            this.value = value;
+        }
+        public int getValue()
+        {
+            return this.value;
+        }
+    };
 
     public Laser(Color color, int rotation, int x, int y){
         super(new Texture("laser_blue.png"));
@@ -37,6 +50,24 @@ public class Laser extends Sprite {
     }
 
     public void update(){
+        float curX = getX();
+        float curY = getY();
 
+        if (direction == Direction.RIGHT.getValue()) //laser should move to the right
+        {
+            setX(++curX);
+        }
+        else if (direction == Direction.DOWN.getValue()) //laser should move down
+        {
+            setY(--curY);
+        }
+        else if (direction == Direction.LEFT.getValue()) //laser should move to the left
+        {
+            setX(--curX);
+        }
+        else if (direction == Direction.UP.getValue()) //laser should move up
+        {
+            setY(++curY);
+        }
     }
 }
