@@ -27,7 +27,13 @@ public class Laser extends Sprite {
 
         direction = rotation/90;
 
+        if (direction % 90 == 0) //up or down configuration
+        {
+            rotate90(true); //rotate the laser so it's facing up/down
+        }
+
         setPosition(x, y);
+
     }
 
     public void update(){
