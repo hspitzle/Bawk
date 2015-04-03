@@ -49,6 +49,7 @@ public class Play implements Screen {
 
     private BitmapFont font;
     private Sound laserSound;
+    private Sound bawkSound;
 
     public Play(BawkGame game_){
         game = game_;
@@ -62,18 +63,18 @@ public class Play implements Screen {
         gameplayImage = new Texture("gameplayarea.png");
 
         laserSound = Gdx.audio.newSound(Gdx.files.internal("laserSound.wav"));
+        bawkSound = Gdx.audio.newSound(Gdx.files.internal("bawksound.mp3"));
+        bawkSound.play();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
-//        System.out.println(grid.x + " " + grid.y);
+
         gameplay = new Rectangle(game.getNestX(), game.getNestY(),
                                  gameplayImage.getWidth(),
                                  gameplayImage.getWidth());
-
-
 
         bawk = new Bawk();
 
@@ -197,6 +198,7 @@ public class Play implements Screen {
         int num = rand.nextInt(16);
 
         if(eggs.get(num).size == 4){
+            bawkSound.play();
             game.highScoreScreen.setFinalScore(score);
             game.setScreen(game.gameOver);
         }
@@ -287,6 +289,7 @@ public class Play implements Screen {
         // backgroundImage.dispose();
         // batch.dispose();
         laserSound.dispose();
+        bawkSound.dispose();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 
 //import java.awt.Rectangle;
 
@@ -24,6 +26,11 @@ public class GameOver implements Screen {
 
     private Texture backgroundImage;
     private Rectangle background;
+
+    private long displayTime;
+    private long startTime;
+
+    private Sound thunder;
 
     public GameOver(BawkGame game_){
         game = game_;
@@ -41,7 +48,11 @@ public class GameOver implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
+        thunder = Gdx.audio.newSound(Gdx.files.internal("thunder.wav"));
+        thunder.play();
 
+        displayTime = 3000;
+        startTime = TimeUtils.millis();
     }
 
     private void drawBatch()
@@ -64,8 +75,8 @@ public class GameOver implements Screen {
     {
         drawBatch();
 
-        //updating & input detection
-
+        if(TimeUtils.millis() > startTime + displayTime)
+            game.setScreen(game.highScoreScreen);
     }
 
     @Override
@@ -78,6 +89,7 @@ public class GameOver implements Screen {
     {
         backgroundImage.dispose();
         batch.dispose();
+        thunder.dispose();
     }
 
     @Override
