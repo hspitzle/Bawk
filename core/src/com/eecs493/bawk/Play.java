@@ -92,7 +92,7 @@ public class Play implements Screen {
         font.scale(2);
 
         score = 0;
-        eggTimer = 2000;
+        eggTimer = game.difficulty;
         lastLaser = 0;
         lastEggTime = TimeUtils.millis();
         lastMovement = TimeUtils.millis();

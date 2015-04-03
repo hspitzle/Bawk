@@ -26,7 +26,7 @@ public class BawkGame extends Game
     private final int width = 480;
     private final int height = 800;
 
-    int difficulty = 2000;
+    int difficulty = 4000;
 
     @Override
     public void create()
