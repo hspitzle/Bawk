@@ -48,7 +48,7 @@ public class HighScoreScreen implements Screen {
     public void show()
     {
         System.out.println("Show");
-        backgroundImage = new Texture("gameover.png");
+        backgroundImage = new Texture("scorescreen.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());

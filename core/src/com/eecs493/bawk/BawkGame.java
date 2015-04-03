@@ -3,6 +3,7 @@ package com.eecs493.bawk;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,13 +21,18 @@ public class BawkGame extends Game
     HighScoreScreen highScoreScreen;
 
     Music music;
+    Sound click;
 
     private final int width = 480;
     private final int height = 800;
 
+    int difficulty = 2000;
+
     @Override
     public void create()
     {
+        click = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
+
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
         music.setLooping(true);
         music.play();

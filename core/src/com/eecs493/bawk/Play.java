@@ -4,6 +4,7 @@ package com.eecs493.bawk;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +50,7 @@ public class Play implements Screen {
     private long lastMovement;
 
     private BitmapFont font;
+
     private Sound laserSound;
     private Sound bawkSound;
 
@@ -84,12 +86,13 @@ public class Play implements Screen {
             eggs.add(new Array<Egg>());
         }
 
+//        font = new BitmapFont(Gdx.files.internal("fontVer2.fnt"), Gdx.files.internal("fontImage.png"), false);
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.scale(2);
 
         score = 0;
-        eggTimer = 3000;
+        eggTimer = 2000;
         lastLaser = 0;
         lastEggTime = TimeUtils.millis();
         lastMovement = TimeUtils.millis();
@@ -249,7 +252,7 @@ public class Play implements Screen {
 
         float tiltX = Gdx.input.getAccelerometerX();
         float tiltY = Gdx.input.getAccelerometerY();
-        float boundary = 1.5f;
+        float boundary = 1.2f;
         int movement = 48;
 
         if(Math.abs(tiltX) > Math.abs(tiltY)) {
