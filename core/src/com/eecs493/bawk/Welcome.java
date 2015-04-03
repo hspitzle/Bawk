@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -112,8 +113,8 @@ public class Welcome implements Screen {
               //  playButton.setTouchable(Touchable.disabled);
               //  howToButton.setTouchable(Touchable.disabled);
               //  settingsButton.setTouchable(Touchable.disabled);
+                game.music.stop();
                 game.setScreen(game.play);
-
             }
         });
         Texture helpTextureUp = new Texture("help.png");

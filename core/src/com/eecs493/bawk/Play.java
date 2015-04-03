@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,6 +48,7 @@ public class Play implements Screen {
     private long lastMovement;
 
     private BitmapFont font;
+    private Sound laserSound;
 
     public Play(BawkGame game_){
         game = game_;
@@ -59,6 +61,8 @@ public class Play implements Screen {
         backgroundImage = new Texture("gamebackground.png");
         gameplayImage = new Texture("gameplayarea.png");
 
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("laserSound.wav"));
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
@@ -68,6 +72,8 @@ public class Play implements Screen {
         gameplay = new Rectangle(game.getNestX(), game.getNestY(),
                                  gameplayImage.getWidth(),
                                  gameplayImage.getWidth());
+
+
 
         bawk = new Bawk();
 
@@ -125,15 +131,14 @@ public class Play implements Screen {
         drawBatch();
 
         //updating & input detection
-
         updateBawkLocation();
 
         detectOverlaps();
 
-
-        long myShotTimer = 180;
+        long myShotTimer = 220;
         if(Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer) {
             bawk.shoot();
+            laserSound.play();
             lastLaser = TimeUtils.millis();
         }
 
@@ -186,14 +191,15 @@ public class Play implements Screen {
         score += multiplier*comboSize;
     }
 
-
     private void spawnEgg()
     {
         Random rand = new Random();
         int num = rand.nextInt(16);
 
-        if(eggs.get(num).size == 4)
+        if(eggs.get(num).size == 4){
+            game.highScoreScreen.setFinalScore(score);
             game.setScreen(game.gameOver);
+        }
 
         boolean vertical = true;
         int x = 100, y = 100;
@@ -228,7 +234,7 @@ public class Play implements Screen {
 
     private void updateBawkLocation()
     {
-        long movementTimer = 300;
+        long movementTimer = 400;
         if(TimeUtils.millis() - lastMovement < movementTimer)
             return;
 
@@ -236,24 +242,26 @@ public class Play implements Screen {
 
         float tiltX = Gdx.input.getAccelerometerX();
         float tiltY = Gdx.input.getAccelerometerY();
-        float boundary = 2f;
+        float boundary = 1.5f;
         int movement = 48;
-        if(tiltX > boundary) {
-            bawk.setX(bawk.getX() - movement);
-            bawk.leftRotate();
-        }
-        else if(tiltX < -1f*boundary) {
-            bawk.setX(bawk.getX() + movement);
-            bawk.rightRotate();
-        }
 
-        else if(tiltY > boundary) {
-            bawk.setY(bawk.getY() - movement);
-            bawk.downRotate();
+        if(Math.abs(tiltX) > Math.abs(tiltY)) {
+            if (tiltX > boundary) {
+                bawk.setX(bawk.getX() - movement);
+                bawk.leftRotate();
+            } else if (tiltX < -1f * boundary) {
+                bawk.setX(bawk.getX() + movement);
+                bawk.rightRotate();
+            }
         }
-        else if(tiltY < -1f*boundary) {
-            bawk.setY(bawk.getY() + movement);
-            bawk.upRotate();
+        else {
+            if (tiltY > boundary) {
+                bawk.setY(bawk.getY() - movement);
+                bawk.downRotate();
+            } else if (tiltY < -1f * boundary) {
+                bawk.setY(bawk.getY() + movement);
+                bawk.upRotate();
+            }
         }
 
 //        keep within x bounds
@@ -278,6 +286,7 @@ public class Play implements Screen {
     {
         // backgroundImage.dispose();
         // batch.dispose();
+        laserSound.dispose();
     }
 
     @Override
