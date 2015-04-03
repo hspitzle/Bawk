@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -107,7 +108,12 @@ public class Welcome implements Screen {
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+
+                playButton.setTouchable(Touchable.disabled);
+                howToButton.setTouchable(Touchable.disabled);
+                settingsButton.setTouchable(Touchable.disabled);
                 game.setScreen(game.play);
+
             }
         });
         Texture helpTextureUp = new Texture("help.png");
@@ -115,7 +121,7 @@ public class Welcome implements Screen {
         SpriteDrawable helpDrawableUp = new SpriteDrawable(new Sprite(helpTextureUp));
         SpriteDrawable helpDrawableDown = new SpriteDrawable(new Sprite(helpTextureDown));
         helpDrawableUp.setMinWidth(Gdx.graphics.getWidth()/4);
-        helpDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
+        helpDrawableUp.setMinHeight(Gdx.graphics.getWidth() / 4);
         helpDrawableDown.setMinWidth(Gdx.graphics.getWidth()/4);
         helpDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
         howToButton = new ImageButton(helpDrawableUp, helpDrawableDown);
@@ -127,6 +133,9 @@ public class Welcome implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 //backgroundImage = new Texture ("howtoscreen.png");
+                playButton.setTouchable(Touchable.disabled);
+                howToButton.setTouchable(Touchable.disabled);
+                settingsButton.setTouchable(Touchable.disabled);
                 game.setScreen(game.howTo);
             }
         });
@@ -146,6 +155,9 @@ public class Welcome implements Screen {
         settingsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                playButton.setTouchable(Touchable.disabled);
+                howToButton.setTouchable(Touchable.disabled);
+                settingsButton.setTouchable(Touchable.disabled);
                // game.setScreen(game.play);
             }
         });
