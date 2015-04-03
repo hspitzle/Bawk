@@ -51,7 +51,7 @@ public class GameOver implements Screen {
         thunder = Gdx.audio.newSound(Gdx.files.internal("thunder.wav"));
         thunder.play();
 
-        displayTime = 3000;
+        displayTime = 2000;
         startTime = TimeUtils.millis();
     }
 

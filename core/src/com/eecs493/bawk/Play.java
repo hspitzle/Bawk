@@ -119,7 +119,10 @@ public class Play implements Screen {
 
         for(Laser laser : bawk.lasers) {
             laser.update();
-            laser.draw(batch);
+            if(!laser.getBoundingRectangle().overlaps(gameplay))
+                bawk.lasers.removeValue(laser, false); //destroy the laser
+            else
+                laser.draw(batch);
         }
 
         font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
