@@ -19,12 +19,16 @@ public class Laser extends Sprite {
         DOWN(0), RIGHT(1), UP(2), LEFT(3);
         private int value;
 
-        private Direction(int value) {
+        Direction(int value) {
             this.value = value;
         }
         public int getValue()
         {
             return this.value;
+        }
+        public void setValue(int value)
+        {
+            this.value = value;
         }
     };
 
@@ -45,6 +49,8 @@ public class Laser extends Sprite {
             rotate90(true); //rotate the laser so it's facing up/down
             setSize(getTexture().getHeight(), getTexture().getWidth());
         }
+        else
+            setSize(getTexture().getWidth(), getTexture().getHeight());
 
         setPosition(x, y);
 
