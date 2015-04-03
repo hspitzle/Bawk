@@ -109,9 +109,9 @@ public class Welcome implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
 
-                playButton.setTouchable(Touchable.disabled);
-                howToButton.setTouchable(Touchable.disabled);
-                settingsButton.setTouchable(Touchable.disabled);
+              //  playButton.setTouchable(Touchable.disabled);
+              //  howToButton.setTouchable(Touchable.disabled);
+              //  settingsButton.setTouchable(Touchable.disabled);
                 game.setScreen(game.play);
 
             }
@@ -133,9 +133,9 @@ public class Welcome implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 //backgroundImage = new Texture ("howtoscreen.png");
-                playButton.setTouchable(Touchable.disabled);
-                howToButton.setTouchable(Touchable.disabled);
-                settingsButton.setTouchable(Touchable.disabled);
+               // playButton.setTouchable(Touchable.disabled);
+               // howToButton.setTouchable(Touchable.disabled);
+               // settingsButton.setTouchable(Touchable.disabled);
                 game.setScreen(game.howTo);
             }
         });
@@ -155,10 +155,8 @@ public class Welcome implements Screen {
         settingsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                playButton.setTouchable(Touchable.disabled);
-                howToButton.setTouchable(Touchable.disabled);
-                settingsButton.setTouchable(Touchable.disabled);
-               // game.setScreen(game.play);
+
+                game.setScreen(game.options);
             }
         });
 
@@ -203,6 +201,9 @@ public class Welcome implements Screen {
     @Override
     public void hide() {
         // called when current screen changes from this to a different screen
+        playButton.setTouchable(Touchable.disabled);
+        howToButton.setTouchable(Touchable.disabled);
+        settingsButton.setTouchable(Touchable.disabled);
     }
 
     @Override
@@ -219,6 +220,10 @@ public class Welcome implements Screen {
     public void pause() {}
 
     @Override
-    public void resume() {}
+    public void resume() {
+        playButton.setTouchable(Touchable.enabled);
+        howToButton.setTouchable(Touchable.enabled);
+        settingsButton.setTouchable(Touchable.enabled);
+    }
 
 }
