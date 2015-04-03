@@ -80,8 +80,8 @@ public class HighScoreScreen implements Screen {
         batch.draw(backgroundImage, background.x, background.y);
 
 
-        font.draw(batch, "Final Score: "+String.valueOf(finalScore), 150, 200);
-        font.draw(batch, "High Score: "+String.valueOf(highScore.getHighScore()), 150, 250);
+        font.draw(batch, "Final Score: "+String.valueOf(finalScore), 100, 400);
+        font.draw(batch, "High Score: "+String.valueOf(highScore.getHighScore()), 100, 450);
 
 
         batch.end();
@@ -92,8 +92,8 @@ public class HighScoreScreen implements Screen {
     {
         drawBatch();
 
-        //updating & input detection
-
+        if(Gdx.input.isTouched())
+            game.setScreen(game.welcome);
     }
 
     @Override

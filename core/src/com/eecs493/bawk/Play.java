@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -118,7 +119,10 @@ public class Play implements Screen {
 
         for(Laser laser : bawk.lasers) {
             laser.update();
-            laser.draw(batch);
+            if(!laser.getBoundingRectangle().overlaps(gameplay))
+                bawk.lasers.removeValue(laser, false); //destroy the laser
+            else
+                laser.draw(batch);
         }
 
         font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
@@ -137,7 +141,8 @@ public class Play implements Screen {
         detectOverlaps();
 
         long myShotTimer = 220;
-        if(Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer) {
+        if((Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Keys.SPACE))
+                && TimeUtils.millis() - lastLaser > myShotTimer) {
             bawk.shoot();
             laserSound.play();
             lastLaser = TimeUtils.millis();
