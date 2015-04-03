@@ -2,9 +2,11 @@ package com.eecs493.bawk;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -22,15 +24,25 @@ public class HighScoreScreen implements Screen {
     private Rectangle background;
 
     private int finalScore;
+    private HighScore highScore;
+
+    private BitmapFont font;
 
     public HighScoreScreen(BawkGame game_){
         game = game_;
         finalScore = 0;
+        highScore = new HighScore();
     }
 
     public void setFinalScore(int finalScore_){
         finalScore = finalScore_;
     }
+
+    public void updateHighScore(){
+        highScore.setHighScore(finalScore);
+    }
+
+
 
     @Override
     public void show()
@@ -44,6 +56,13 @@ public class HighScoreScreen implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
+        game.music.play();
+
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.scale(2);
+
+        updateHighScore();
 
     }
 
@@ -59,6 +78,12 @@ public class HighScoreScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+
+
+        font.draw(batch, "Final Score: "+String.valueOf(finalScore), 150, 200);
+        font.draw(batch, "High Score: "+String.valueOf(highScore.getHighScore()), 150, 250);
+
+
         batch.end();
     }
 
