@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
@@ -43,6 +44,9 @@ public class Play implements Screen {
     private int eggTimer;
     private long lastLaser;
     private long lastEggTime;
+    private long lastMovement;
+
+    private BitmapFont font;
 
     public Play(BawkGame game_){
         game = game_;
@@ -72,12 +76,15 @@ public class Play implements Screen {
             eggs.add(new Array<Egg>());
         }
 
-
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.scale(2);
 
         score = 0;
         eggTimer = 3000;
         lastLaser = 0;
         lastEggTime = TimeUtils.millis();
+        lastMovement = TimeUtils.millis();
 
         spawnEgg();
     }
@@ -106,6 +113,8 @@ public class Play implements Screen {
             laser.update();
             laser.draw(batch);
         }
+
+        font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
 
         batch.end();
     }
@@ -139,26 +148,42 @@ public class Play implements Screen {
 
     private void detectOverlaps()
     {
+        int comboSize = 0;
+
         for(Array<Egg> arr : eggs) {
             for (Egg egg : arr) {
                 for (Laser j : bawk.lasers) {
                     if (j.getBoundingRectangle().overlaps(egg.getBoundingRectangle())) {
-                        bawk.lasers.removeValue(j, false); //destroy the laser
+
                         if (bawk.getColor() == egg.getColor()) //the laser and the colliding egg have the same color
                         {
                             arr.removeValue(egg, false); //destroy the egg
+                            ++score;
+                            ++comboSize;
                         }
                         else //laser and egg are different colors, so swap them
                         {
                             Color temp = egg.getColor();
                             egg.setColor(bawk.getColor());
                             bawk.setColor(temp);
+                            bawk.lasers.removeValue(j, false); //destroy the laser
+                            break;
                         }
 
                     }
                 }
             }
         }
+
+        int multiplier = 0;
+        if(comboSize == 2)
+            multiplier = 1;
+        else if(comboSize == 3)
+            multiplier = 2;
+        else if(comboSize == 4)
+            multiplier = 3;
+
+        score += multiplier*comboSize;
     }
 
 
@@ -203,25 +228,30 @@ public class Play implements Screen {
 
     private void updateBawkLocation()
     {
-        // move bawk around
-        float tilt = Gdx.input.getAccelerometerX();
-        float boundary = 6.5f;
+        long movementTimer = 300;
+        if(TimeUtils.millis() - lastMovement < movementTimer)
+            return;
+
+        lastMovement = TimeUtils.millis();
+
+        float tiltX = Gdx.input.getAccelerometerX();
+        float tiltY = Gdx.input.getAccelerometerY();
+        float boundary = 2f;
         int movement = 48;
-        if(tilt > boundary) {
+        if(tiltX > boundary) {
             bawk.setX(bawk.getX() - movement);
             bawk.leftRotate();
         }
-        else if(tilt < -1f*boundary) {
+        else if(tiltX < -1f*boundary) {
             bawk.setX(bawk.getX() + movement);
             bawk.rightRotate();
         }
 
-        tilt = Gdx.input.getAccelerometerY();
-        if(tilt > boundary) {
+        else if(tiltY > boundary) {
             bawk.setY(bawk.getY() - movement);
             bawk.downRotate();
         }
-        else if(tilt < -1f*boundary) {
+        else if(tiltY < -1f*boundary) {
             bawk.setY(bawk.getY() + movement);
             bawk.upRotate();
         }
