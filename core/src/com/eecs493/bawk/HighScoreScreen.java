@@ -92,8 +92,8 @@ public class HighScoreScreen implements Screen {
     {
         drawBatch();
 
-        //updating & input detection
-
+        if(Gdx.input.isTouched())
+            game.setScreen(game.welcome);
     }
 
     @Override

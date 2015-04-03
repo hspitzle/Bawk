@@ -129,10 +129,14 @@ public class Bawk extends Sprite
     {
         color = color_;
 
-        if(color == Color.BLUE) setTexture(textureBlue);
-        else if (color == Color.PURPLE) setTexture(texturePurple);
-        else if(color == Color.GREEN)setTexture(textureGreen);
-        else setTexture(textureYellow);
+        if(color == Color.BLUE)
+            setTexture(textureBlue);
+        else if (color == Color.PURPLE)
+            setTexture(texturePurple);
+        else if(color == Color.GREEN)
+            setTexture(textureGreen);
+        else
+            setTexture(textureYellow);
     }
 
     public void upRotate()
@@ -140,17 +144,11 @@ public class Bawk extends Sprite
         if (rotation != 180) //initially wasn't facing down
         {
             if (rotation == 0) //initially facing up
-            {
                 rotate(180);
-            }
             else if (rotation == 90) //initially facing right
-            {
                 rotate(90);
-            }
             else //rotation facing left
-            {
                 rotate(-90);
-            }
         }
         rotation = 180;
     }
