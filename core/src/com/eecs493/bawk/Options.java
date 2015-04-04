@@ -123,6 +123,7 @@ public class Options implements Screen {
                 //  settingsButton.setTouchable(Touchable.disabled);
 
                 //game.setScreen(game.play);
+                game.difficulty = BawkGame.Difficulty.EASY.getValue();
             }
         });
 
@@ -147,6 +148,7 @@ public class Options implements Screen {
                 //  settingsButton.setTouchable(Touchable.disabled);
 
                 //game.setScreen(game.play);
+                game.difficulty = BawkGame.Difficulty.MEDIUM.getValue();
             }
         });
 
@@ -170,6 +172,7 @@ public class Options implements Screen {
                 //  howToButton.setTouchable(Touchable.disabled);
                 //  settingsButton.setTouchable(Touchable.disabled);
                 //game.setScreen(game.play);
+                game.difficulty = BawkGame.Difficulty.HARD.getValue();
             }
         });
 

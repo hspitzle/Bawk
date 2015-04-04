@@ -191,12 +191,6 @@ public class Welcome implements Screen {
         drawBatch();
         stage.act();
         stage.draw();
-
-        //drawBatch();
-        //updating & input detection
-        /*if(Gdx.input.isTouched())
-            game.setScreen(game.play);
-        */
     }
 
     @Override

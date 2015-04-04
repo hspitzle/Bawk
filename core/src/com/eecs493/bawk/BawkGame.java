@@ -26,11 +26,25 @@ public class BawkGame extends Game
     private final int width = 480;
     private final int height = 800;
 
-    int difficulty = 4000;
+    int difficulty;
+    public enum Difficulty {
+        EASY(4000), MEDIUM(3000), HARD(2000);
+        private int value;
+
+        Difficulty(int value) {
+            this.value = value;
+        }
+        public int getValue()
+        {
+            return this.value;
+        }
+    };
 
     @Override
     public void create()
     {
+        difficulty = Difficulty.EASY.getValue();
+
         click = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
