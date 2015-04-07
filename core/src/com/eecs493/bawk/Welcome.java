@@ -127,7 +127,7 @@ public class Welcome implements Screen {
         helpDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
         howToButton = new ImageButton(helpDrawableUp, helpDrawableDown);
         //howToButton = new TextButton("Help!", skin); // Use the initialized skin
-        howToButton.setPosition(Gdx.graphics.getWidth()/2 +5, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/5);
+        howToButton.setPosition(Gdx.graphics.getWidth()/2 + 5, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/5);
         //howToButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
         howToButton.addListener(new ChangeListener() {
@@ -151,7 +151,7 @@ public class Welcome implements Screen {
         settingsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
         settingsButton = new ImageButton(settingsDrawableUp, settingsDrawableDown);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4 - 5, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/5);
+        settingsButton.setPosition(Gdx.graphics.getWidth()/4 + 5, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/5);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         settingsButton.addListener(new ChangeListener() {
             @Override
