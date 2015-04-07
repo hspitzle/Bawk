@@ -10,10 +10,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Laser extends Sprite {
 
     private int direction;
-    private final int speed = 5;
+    private final int speed = 10;
 
     public Laser(){ }
-
 
     public enum Direction {
         DOWN(0), RIGHT(1), UP(2), LEFT(3);
