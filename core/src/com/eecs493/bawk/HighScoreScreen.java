@@ -31,7 +31,7 @@ public class HighScoreScreen implements Screen {
     public HighScoreScreen(BawkGame game_){
         game = game_;
         finalScore = 0;
-        highScore = new HighScore();
+        highScore = new HighScore(game);
     }
 
     public void setFinalScore(int finalScore_){

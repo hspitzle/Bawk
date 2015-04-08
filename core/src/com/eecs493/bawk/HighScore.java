@@ -9,20 +9,24 @@ import com.badlogic.gdx.Preferences;
 public class HighScore {
     private Preferences prefs;
     private int highscore;
+    private String highscoreString;
+    private BawkGame game;
 
-    public HighScore(){
+    public HighScore(BawkGame game_){
+        game = game_;
+        highscoreString = "highscore"+game.difficulty;
         prefs = Gdx.app.getPreferences("My Preferences");
     }
 
     public int getHighScore(){
-        highscore = prefs.getInteger("highscore", 0);
+        highscore = prefs.getInteger(highscoreString, 0);
         return highscore;
     }
 
     public void setHighScore(int finalScore){
-        highscore = prefs.getInteger("highscore", 0);
+        highscore = prefs.getInteger(highscoreString, 0);
         if(highscore == 0 || highscore < finalScore){
-            prefs.putInteger("highscore", finalScore);
+            prefs.putInteger(highscoreString, finalScore);
             prefs.flush();
         }
     }
