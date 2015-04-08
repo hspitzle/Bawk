@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -50,7 +51,12 @@ public class Options implements Screen {
     private ImageButton easyButton;
     private ImageButton mediumButton;
     private ImageButton hardButton;
+    private ImageButton swipeButton;
+    private ImageButton tiltButton;
+    private ImageButton muteMusicButton;
+    private ImageButton muteSoundsButton;
     ButtonGroup difficultyButtons;
+    ButtonGroup modeButtons;
 
 
     public Options(BawkGame game_){
@@ -88,7 +94,7 @@ public class Options implements Screen {
     public void show()
     {
         System.out.println("Show options screen");
-        backgroundImage = new Texture("settingsscreen.png");
+        backgroundImage = new Texture("settingsscreenrevised3.png");
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -107,12 +113,13 @@ public class Options implements Screen {
         Texture easyTextureDown = new Texture("easy2.png");
         SpriteDrawable easyDrawableUp = new SpriteDrawable(new Sprite(easyTextureUp));
         SpriteDrawable easyDrawableDown = new SpriteDrawable(new Sprite(easyTextureDown));
-        easyDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
-        easyDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/7);
-        easyDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
-        easyDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/7);
+        easyDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        easyDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        easyDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        easyDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
         easyButton = new ImageButton(easyDrawableUp, easyDrawableDown, easyDrawableDown);
-        easyButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, Gdx.graphics.getWidth()/7 + Gdx.graphics.getHeight()/2);
+        easyButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2);
+        float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         easyButton.addListener(new ChangeListener() {
             @Override
@@ -132,12 +139,13 @@ public class Options implements Screen {
         Texture mediumTextureDown = new Texture("medium2.png");
         SpriteDrawable mediumDrawableUp = new SpriteDrawable(new Sprite(mediumTextureUp));
         SpriteDrawable mediumDrawableDown = new SpriteDrawable(new Sprite(mediumTextureDown));
-        mediumDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
-        mediumDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/7);
-        mediumDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
-        mediumDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/7);
+        mediumDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        mediumDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        mediumDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        mediumDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
         mediumButton = new ImageButton(mediumDrawableUp, mediumDrawableDown, mediumDrawableDown);
-        mediumButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, Gdx.graphics.getWidth()/2 + Gdx.graphics.getHeight()/5);
+        mediumButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, easyPosition - (3*Gdx.graphics.getWidth()/28));
+        float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         mediumButton.addListener(new ChangeListener() {
             @Override
@@ -157,12 +165,13 @@ public class Options implements Screen {
         Texture hardTextureDown = new Texture("hard2.png");
         SpriteDrawable hardDrawableUp = new SpriteDrawable(new Sprite(hardTextureUp));
         SpriteDrawable hardDrawableDown = new SpriteDrawable(new Sprite(hardTextureDown));
-        hardDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
-        hardDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/7);
-        hardDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
-        hardDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/7);
+        hardDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        hardDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        hardDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        hardDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
         hardButton = new ImageButton(hardDrawableUp, hardDrawableDown, hardDrawableDown);
-        hardButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , Gdx.graphics.getWidth()/2 + Gdx.graphics.getHeight()/10);
+        hardButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , mediumPosition - (3*Gdx.graphics.getWidth()/28));
+        float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         hardButton.addListener(new ChangeListener() {
             @Override
@@ -182,10 +191,130 @@ public class Options implements Screen {
         difficultyButtons.add(hardButton);
         difficultyButtons.setMaxCheckCount(1); //only one difficulty choice can be selected ata  time
 
+        //swipe
+        Texture swipeTextureUp = new Texture("swipe.png");
+        Texture swipeTextureDown = new Texture("swipe2.png");
+        SpriteDrawable swipeDrawableUp = new SpriteDrawable(new Sprite(swipeTextureUp));
+        SpriteDrawable swipeDrawableDown = new SpriteDrawable(new Sprite(swipeTextureDown));
+        swipeDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        swipeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        swipeDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        swipeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
+        swipeButton = new ImageButton(swipeDrawableUp, swipeDrawableDown, swipeDrawableDown);
+        swipeButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , hardPosition - 2*(3*Gdx.graphics.getWidth()/28));
+        float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        swipeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                game.swipe = true;
+            }
+        });
+
+        //tilt
+        Texture tiltTextureUp = new Texture("tilt.png");
+        Texture tiltTextureDown = new Texture("tilt2.png");
+        SpriteDrawable tiltDrawableUp = new SpriteDrawable(new Sprite(tiltTextureUp));
+        SpriteDrawable tiltDrawableDown = new SpriteDrawable(new Sprite(tiltTextureDown));
+        tiltDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        tiltDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        tiltDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        tiltDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
+        tiltButton = new ImageButton(tiltDrawableUp, tiltDrawableDown, tiltDrawableDown);
+        tiltButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , swipePosition - (3*Gdx.graphics.getWidth()/28));
+        float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        tiltButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+               // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                game.swipe = false;
+            }
+        });
+
+        //muteMusic
+        Texture muteMusicTextureUp = new Texture("mute.png");
+        Texture muteMusicTextureDown = new Texture("mute2.png");
+        SpriteDrawable muteMusicDrawableUp = new SpriteDrawable(new Sprite(muteMusicTextureUp));
+        SpriteDrawable muteMusicDrawableDown = new SpriteDrawable(new Sprite(muteMusicTextureDown));
+        muteMusicDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
+        muteMusicButton.setPosition(-3 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteMusicPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        muteMusicButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                if (game.music.isPlaying())
+                    game.music.pause();
+                else
+                    game.music.play();
+            }
+        });
+
+        //muteSounds
+        Texture muteSoundsTextureUp = new Texture("mute.png");
+        Texture muteSoundsTextureDown = new Texture("mute2.png");
+        SpriteDrawable muteSoundsDrawableUp = new SpriteDrawable(new Sprite(muteSoundsTextureUp));
+        SpriteDrawable muteSoundsDrawableDown = new SpriteDrawable(new Sprite(muteSoundsTextureDown));
+        muteSoundsDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
+        muteSoundsButton.setPosition(10 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteSoundsPosition = muteMusicPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        muteSoundsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                //if (game.music.isPlaying())
+                //    game.music.pause();
+                //else
+                //    game.music.play();
+            }
+        });
+
+        modeButtons = new ButtonGroup();
+        modeButtons.add(tiltButton);
+        modeButtons.add(swipeButton);
+        modeButtons.setMaxCheckCount(1); //only one difficulty choice can be selected ata  time
 
         stage.addActor(easyButton);
         stage.addActor(mediumButton);
         stage.addActor(hardButton);
+        stage.addActor(swipeButton);
+        stage.addActor(tiltButton);
+        stage.addActor(muteMusicButton);
+        stage.addActor(muteSoundsButton);
 
 
     }
@@ -221,6 +350,13 @@ public class Options implements Screen {
     @Override
     public void hide() {
         // called when current screen changes from this to a different screen
+        easyButton.setTouchable(Touchable.disabled);
+        mediumButton.setTouchable(Touchable.disabled);
+        hardButton.setTouchable(Touchable.disabled);
+        swipeButton.setTouchable(Touchable.disabled);
+        tiltButton.setTouchable(Touchable.disabled);
+        muteMusicButton.setTouchable(Touchable.disabled);
+        muteSoundsButton.setTouchable(Touchable.disabled);
     }
 
     @Override
