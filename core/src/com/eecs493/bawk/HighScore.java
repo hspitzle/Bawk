@@ -19,11 +19,14 @@ public class HighScore {
     }
 
     public int getHighScore(){
+        highscoreString = "highscore"+game.difficulty;
+        System.out.println(highscoreString);
         highscore = prefs.getInteger(highscoreString, 0);
         return highscore;
     }
 
     public void setHighScore(int finalScore){
+        highscoreString = "highscore"+game.difficulty;
         highscore = prefs.getInteger(highscoreString, 0);
         if(highscore == 0 || highscore < finalScore){
             prefs.putInteger(highscoreString, finalScore);
