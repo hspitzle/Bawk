@@ -206,9 +206,7 @@ public class Play implements Screen {
                 laser.draw(batch);
         }
 
-        font.draw(batch, "Score: "+String.valueOf(score), 150, 780);
-
-//        fireButton.draw(batch, 100f);
+        font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
 
         batch.end();
     }
