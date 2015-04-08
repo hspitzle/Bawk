@@ -133,6 +133,7 @@ public class Welcome implements Screen {
         howToButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                
                 //backgroundImage = new Texture ("howtoscreen.png");
                // playButton.setTouchable(Touchable.disabled);
                // howToButton.setTouchable(Touchable.disabled);
