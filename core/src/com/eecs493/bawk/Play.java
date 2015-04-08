@@ -56,6 +56,8 @@ public class Play implements Screen {
     private Sound laserSound;
     private Sound bawkSound;
 
+    private int movement;
+
     public Play(BawkGame game_){
         game = game_;
     }
@@ -100,7 +102,49 @@ public class Play implements Screen {
         lastEggTime = TimeUtils.millis();
         lastMovement = TimeUtils.millis();
 
+        movement = 48;
+
+        if(game.swipe){
+            Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+
+                @Override
+                public void onUp() {
+                    bawk.moveUp(movement);
+                    keepWithinBounds();
+                }
+
+                @Override
+                public void onRight() {
+                    bawk.moveRight(movement);
+                    keepWithinBounds();
+                }
+
+                @Override
+                public void onLeft() {
+                    bawk.moveLeft(movement);
+                    keepWithinBounds();
+                }
+
+                @Override
+                public void onDown() {
+                    bawk.moveDown(movement);
+                    keepWithinBounds();
+                }
+
+                @Override
+                public void onTap(){
+                    fire();
+                }
+            }));
+        }
+
         spawnEgg();
+    }
+
+    private void fire(){
+        bawk.shoot();
+        laserSound.play();
+        lastLaser = TimeUtils.millis();
     }
 
     private void drawBatch()
@@ -147,12 +191,8 @@ public class Play implements Screen {
         detectOverlaps();
 
         long myShotTimer = 220;
-        if((Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Keys.SPACE))
-                && TimeUtils.millis() - lastLaser > myShotTimer) {
-            bawk.shoot();
-            laserSound.play();
-            lastLaser = TimeUtils.millis();
-        }
+        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer)
+            fire();
 
         // check if we need to create a new egg
         if(TimeUtils.millis() - lastEggTime > eggTimer) {
@@ -254,6 +294,9 @@ public class Play implements Screen {
 
     private void updateBawkLocation()
     {
+        if(game.swipe)
+            return;
+
         long movementTimer = 400;
         if(TimeUtils.millis() - lastMovement < movementTimer)
             return;
@@ -284,6 +327,10 @@ public class Play implements Screen {
             }
         }
 
+        keepWithinBounds();
+    }
+
+    private void keepWithinBounds(){
 //        keep within x bounds
         if(bawk.getX() > game.getLocationX(7))
             bawk.setX(game.getLocationX(7));
