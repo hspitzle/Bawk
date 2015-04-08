@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 //import java.awt.Rectangle;
 
@@ -25,6 +30,10 @@ public class HowTo implements Screen {
     private Texture backgroundImage;
     private Rectangle background;
 
+    private Stage stage;
+    //the home button
+    private ImageButton homeButton;
+
     public HowTo(BawkGame game_){
         game = game_;
     }
@@ -32,7 +41,10 @@ public class HowTo implements Screen {
     @Override
     public void show()
     {
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         System.out.println("Show");
+
         backgroundImage = new Texture("howtoscreen.png");
 
         camera = new OrthographicCamera();
@@ -41,6 +53,27 @@ public class HowTo implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
+        //home button initializing
+        Texture homeTextureUp = new Texture("home.png");
+        Texture homeTextureDown = new Texture("home2.png");
+        SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
+        SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
+        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
+        homeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
+        homeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
+        homeButton.setPosition(Gdx.graphics.getWidth()/3 + Gdx.graphics.getHeight()/4, Gdx.graphics.getWidth()/17);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        homeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                game.setScreen(game.welcome); //return to the home screen
+            }
+        });
+
+        stage.addActor(homeButton);
 
     }
 
@@ -63,9 +96,12 @@ public class HowTo implements Screen {
     public void render(float delta)
     {
         drawBatch();
-        if(Gdx.input.isTouched())
-            game.setScreen(game.welcome);
+        //if(Gdx.input.isTouched())
+          //  game.setScreen(game.welcome);
         //updating & input detection
+        System.out.println("made it to render");
+        stage.act();
+        stage.draw();
 
     }
 
