@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 
-import javafx.scene.control.RadioButton;
+//import javafx.scene.control.RadioButton;
 
 //import java.awt.Rectangle;
 
