@@ -55,6 +55,7 @@ public class Options implements Screen {
     private ImageButton tiltButton;
     private ImageButton muteMusicButton;
     private ImageButton muteSoundsButton;
+    private ImageButton homeButton;
     ButtonGroup difficultyButtons;
     ButtonGroup modeButtons;
 
@@ -266,10 +267,10 @@ public class Options implements Screen {
                 //game.setScreen(game.play);
                 // game.difficulty = BawkGame.Difficulty.HARD.getValue();
                 // = BawkGame.Mode.TILT.getValue();
-                if (game.music.isPlaying())
-                    game.music.pause();
-                else
-                    game.music.play();
+                //if (game.music.isPlaying())
+               //     game.music.pause();
+               // else
+               //     game.music.play();
             }
         });
 
@@ -283,7 +284,7 @@ public class Options implements Screen {
         muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(10 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteSoundsButton.setPosition(-55 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
         float muteSoundsPosition = muteMusicPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         muteSoundsButton.addListener(new ChangeListener() {
@@ -296,16 +297,38 @@ public class Options implements Screen {
                 //game.setScreen(game.play);
                 // game.difficulty = BawkGame.Difficulty.HARD.getValue();
                 // = BawkGame.Mode.TILT.getValue();
-                //if (game.music.isPlaying())
-                //    game.music.pause();
-                //else
-                //    game.music.play();
+                if (game.music.isPlaying())
+                    game.music.pause();
+                else
+                    game.music.play();
             }
         });
 
+        //home button initializing
+        Texture homeTextureUp = new Texture("home.png");
+        Texture homeTextureDown = new Texture("home2.png");
+        SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
+        SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
+        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
+        homeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
+        homeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
+        homeButton.setPosition(Gdx.graphics.getWidth()/3 + Gdx.graphics.getHeight()/4, Gdx.graphics.getWidth()/17);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        homeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                game.setScreen(game.welcome); //return to the home screen
+            }
+        });
+
+        stage.addActor(homeButton);
+
         modeButtons = new ButtonGroup();
-        modeButtons.add(tiltButton);
         modeButtons.add(swipeButton);
+        modeButtons.add(tiltButton);
         modeButtons.setMaxCheckCount(1); //only one difficulty choice can be selected ata  time
 
         stage.addActor(easyButton);
@@ -357,6 +380,7 @@ public class Options implements Screen {
         tiltButton.setTouchable(Touchable.disabled);
         muteMusicButton.setTouchable(Touchable.disabled);
         muteSoundsButton.setTouchable(Touchable.disabled);
+        homeButton.setTouchable(Touchable.disabled);
     }
 
     @Override
