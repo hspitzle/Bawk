@@ -26,7 +26,9 @@ public class BawkGame extends Game
     private final int width = 480;
     private final int height = 800;
 
+    boolean swipe;
     int difficulty;
+
     public enum Difficulty {
         EASY(4000), MEDIUM(3000), HARD(2000);
         private int value;
@@ -43,6 +45,7 @@ public class BawkGame extends Game
     @Override
     public void create()
     {
+        swipe = true;
         difficulty = Difficulty.EASY.getValue();
 
         click = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
@@ -57,6 +60,7 @@ public class BawkGame extends Game
         play = new Play(this);
         gameOver = new GameOver(this);
         highScoreScreen = new HighScoreScreen(this);
+
         setScreen(welcome);
     }
 

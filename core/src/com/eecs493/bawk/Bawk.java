@@ -139,6 +139,31 @@ public class Bawk extends Sprite
             setTexture(textureYellow);
     }
 
+    public void moveUp(int movement)
+    {
+        setY(getY() + movement);
+        upRotate();
+    }
+
+    public void moveDown(int movement)
+    {
+        setY(getY() - movement);
+        downRotate();
+    }
+
+    public void moveLeft(int movement)
+    {
+        setX(getX() - movement);
+        leftRotate();
+    }
+
+    public void moveRight(int movement)
+    {
+        setX(getX() + movement);
+        rightRotate();
+    }
+
+
     public void upRotate()
     {
         if (rotation != 180) //initially wasn't facing down
@@ -158,17 +183,11 @@ public class Bawk extends Sprite
         if (rotation != 90) //initially wasn't facing right
         {
             if (rotation == 0) //initially facing up
-            {
                 rotate(90);
-            }
             else if (rotation == 180) //initially facing down
-            {
                 rotate(-90);
-            }
             else //rotation facing left
-            {
                 rotate(180);
-            }
         }
         rotation = 90;
     }
@@ -178,17 +197,11 @@ public class Bawk extends Sprite
         if (rotation != 0) //initially wasn't facing up
         {
             if (rotation == 90) //initially facing right
-            {
                 rotate(-90);
-            }
             else if (rotation == 180) //initially facing down
-            {
                 rotate(180);
-            }
             else //rotation facing left
-            {
                 rotate(90);
-            }
         }
         rotation = 0;
     }
@@ -198,17 +211,11 @@ public class Bawk extends Sprite
         if (rotation != 270) //initially wasn't facing left
         {
             if (rotation == 0) //initially facing up
-            {
                 rotate(-90);
-            }
             else if (rotation == 90) //initially facing right
-            {
                 rotate(180);
-            }
             else //rotation facing down
-            {
                 rotate(90);
-            }
         }
         rotation = 270;
     }
