@@ -97,14 +97,14 @@ public class Welcome implements Screen {
         Texture playTextureDown = new Texture("playpressed.png");
         SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
         SpriteDrawable playDrawableDown = new SpriteDrawable(new Sprite(playTextureDown));
-        playDrawableUp.setMinHeight(Gdx.graphics.getWidth()/5);
-        playDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/5);
-        playDrawableDown.setMinHeight(Gdx.graphics.getWidth()/5);
-        playDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/5);
+        playDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
+        playDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        playDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
+        playDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
         playButton = new ImageButton(playDrawableUp, playDrawableDown);
        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/16, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7);
+        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         playButton.addListener(new ChangeListener() {
             @Override
@@ -121,19 +121,19 @@ public class Welcome implements Screen {
         Texture helpTextureDown = new Texture("helppressed.png");
         SpriteDrawable helpDrawableUp = new SpriteDrawable(new Sprite(helpTextureUp));
         SpriteDrawable helpDrawableDown = new SpriteDrawable(new Sprite(helpTextureDown));
-        helpDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
-        helpDrawableUp.setMinHeight(Gdx.graphics.getWidth() / 6);
-        helpDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
-        helpDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        helpDrawableUp.setMinWidth(Gdx.graphics.getWidth()/5);
+        helpDrawableUp.setMinHeight(Gdx.graphics.getWidth() / 5);
+        helpDrawableDown.setMinWidth(Gdx.graphics.getWidth()/5);
+        helpDrawableDown.setMinHeight(Gdx.graphics.getWidth()/5);
         howToButton = new ImageButton(helpDrawableUp, helpDrawableDown);
         //howToButton = new TextButton("Help!", skin); // Use the initialized skin
-        howToButton.setPosition(Gdx.graphics.getWidth()/2 + 35, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/7);
+        howToButton.setPosition(Gdx.graphics.getWidth()/2 + 5, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/7);
         //howToButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
         howToButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                
+
                 //backgroundImage = new Texture ("howtoscreen.png");
                // playButton.setTouchable(Touchable.disabled);
                // howToButton.setTouchable(Touchable.disabled);
@@ -146,13 +146,13 @@ public class Welcome implements Screen {
         Texture settingsTextureDown = new Texture("settingspressed.png");
         SpriteDrawable settingsDrawableUp = new SpriteDrawable(new Sprite(settingsTextureUp));
         SpriteDrawable settingsDrawableDown = new SpriteDrawable(new Sprite(settingsTextureDown));
-        settingsDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
-        settingsDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
-        settingsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
-        settingsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        settingsDrawableUp.setMinWidth(Gdx.graphics.getWidth()/5);
+        settingsDrawableUp.setMinHeight(Gdx.graphics.getWidth()/5);
+        settingsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/5);
+        settingsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/5);
         settingsButton = new ImageButton(settingsDrawableUp, settingsDrawableDown);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4 + 60, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/7);
+        settingsButton.setPosition(Gdx.graphics.getWidth()/4 + 50, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/7);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         settingsButton.addListener(new ChangeListener() {
             @Override
