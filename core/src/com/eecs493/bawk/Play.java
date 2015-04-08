@@ -87,7 +87,6 @@ public class Play implements Screen {
         for(int i=0; i<16; ++i){
             eggs.add(new Array<Egg>());
         }
-
 //        font = new BitmapFont(Gdx.files.internal("fontVer2.fnt"), Gdx.files.internal("fontImage.png"), false);
         font = new BitmapFont();
         font.setColor(Color.WHITE);
