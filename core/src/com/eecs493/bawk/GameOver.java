@@ -49,7 +49,8 @@ public class GameOver implements Screen {
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
         thunder = Gdx.audio.newSound(Gdx.files.internal("thunder.wav"));
-        thunder.play();
+        if (game.soundEffectsOnFlag)
+            thunder.play();
 
         displayTime = 2000;
         startTime = TimeUtils.millis();

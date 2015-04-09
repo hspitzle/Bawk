@@ -121,6 +121,8 @@ public class Options implements Screen {
         easyButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2);
         float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        if (game.easyFlag)
+            easyButton.toggle();
         easyButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -131,6 +133,9 @@ public class Options implements Screen {
 
                 //game.setScreen(game.play);
                 game.difficulty = BawkGame.Difficulty.EASY.getValue();
+                game.easyFlag = true;
+                game.mediumFlag = false;
+                game.hardFlag = false;
             }
         });
 
@@ -147,6 +152,8 @@ public class Options implements Screen {
         mediumButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, easyPosition - (3*Gdx.graphics.getWidth()/28));
         float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        if (game.mediumFlag)
+            mediumButton.toggle();
         mediumButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -157,6 +164,9 @@ public class Options implements Screen {
 
                 //game.setScreen(game.play);
                 game.difficulty = BawkGame.Difficulty.MEDIUM.getValue();
+                game.easyFlag = false;
+                game.mediumFlag = true;
+                game.hardFlag = false;
             }
         });
 
@@ -173,6 +183,9 @@ public class Options implements Screen {
         hardButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , mediumPosition - (3*Gdx.graphics.getWidth()/28));
         float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        if (game.hardFlag)
+            hardButton.toggle();
+
         hardButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -182,6 +195,9 @@ public class Options implements Screen {
                 //  settingsButton.setTouchable(Touchable.disabled);
                 //game.setScreen(game.play);
                 game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                game.easyFlag = false;
+                game.mediumFlag = false;
+                game.hardFlag = true;
             }
         });
 
@@ -204,6 +220,10 @@ public class Options implements Screen {
         swipeButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , hardPosition - 2*(3*Gdx.graphics.getWidth()/28));
         float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        if (game.swipeFlag == true)
+        {
+            swipeButton.toggle();
+        }
         swipeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -213,6 +233,8 @@ public class Options implements Screen {
                 //  settingsButton.setTouchable(Touchable.disabled);
                 //game.setScreen(game.play);
                 game.swipe = true;
+                game.swipeFlag = true;
+                game.tiltFlag = false;
             }
         });
 
@@ -229,6 +251,10 @@ public class Options implements Screen {
         tiltButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , swipePosition - (3*Gdx.graphics.getWidth()/28));
         float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        if (game.tiltFlag == true)
+        {
+            tiltButton.toggle();
+        }
         tiltButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -240,36 +266,8 @@ public class Options implements Screen {
                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
                 // = BawkGame.Mode.TILT.getValue();
                 game.swipe = false;
-            }
-        });
-
-        //muteMusic
-        Texture muteMusicTextureUp = new Texture("mute.png");
-        Texture muteMusicTextureDown = new Texture("mute2.png");
-        SpriteDrawable muteMusicDrawableUp = new SpriteDrawable(new Sprite(muteMusicTextureUp));
-        SpriteDrawable muteMusicDrawableDown = new SpriteDrawable(new Sprite(muteMusicTextureDown));
-        muteMusicDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
-        muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
-        muteMusicButton.setPosition(-3 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
-        float muteMusicPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        muteMusicButton.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-
-                //  playButton.setTouchable(Touchable.disabled);
-                //  howToButton.setTouchable(Touchable.disabled);
-                //  settingsButton.setTouchable(Touchable.disabled);
-                //game.setScreen(game.play);
-                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
-                // = BawkGame.Mode.TILT.getValue();
-                //if (game.music.isPlaying())
-               //     game.music.pause();
-               // else
-               //     game.music.play();
+                game.swipeFlag = false;
+                game.tiltFlag = true;
             }
         });
 
@@ -283,9 +281,13 @@ public class Options implements Screen {
         muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(-55 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
-        float muteSoundsPosition = muteMusicPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        muteSoundsButton.setPosition(-3 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        if (game.soundEffectsOnFlag == false) //the user has muted the sound effects
+            muteSoundsButton.toggle();
+
         muteSoundsButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -296,10 +298,55 @@ public class Options implements Screen {
                 //game.setScreen(game.play);
                 // game.difficulty = BawkGame.Difficulty.HARD.getValue();
                 // = BawkGame.Mode.TILT.getValue();
-                if (game.music.isPlaying())
-                    game.music.pause();
+                //if (game.music.isPlaying())
+               //     game.music.pause();
+               // else
+               //     game.music.play();
+
+                if (game.soundEffectsOnFlag == true)
+                    game.soundEffectsOnFlag = false;
                 else
+                    game.soundEffectsOnFlag = true;
+            }
+        });
+
+        //muteMusic
+        Texture muteMusicTextureUp = new Texture("mute.png");
+        Texture muteMusicTextureDown = new Texture("mute2.png");
+        SpriteDrawable muteMusicDrawableUp = new SpriteDrawable(new Sprite(muteMusicTextureUp));
+        SpriteDrawable muteMusicDrawableDown = new SpriteDrawable(new Sprite(muteMusicTextureDown));
+        muteMusicDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
+        muteMusicButton.setPosition(-55 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        if (game.musicOnFlag == false) //the user has muted the music
+            muteMusicButton.toggle();
+
+        muteMusicButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                if (game.music.isPlaying())
+                {
+                    game.musicOnFlag = false;
+                    game.music.pause();
+                }
+                else
+                {
+                    game.musicOnFlag = true;
                     game.music.play();
+                }
             }
         });
 

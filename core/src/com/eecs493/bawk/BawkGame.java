@@ -23,6 +23,16 @@ public class BawkGame extends Game
     Music music;
     Sound click;
 
+    boolean soundEffectsOnFlag;
+    boolean musicOnFlag;
+
+    boolean easyFlag;
+    boolean mediumFlag;
+    boolean hardFlag;
+
+    boolean tiltFlag;
+    boolean swipeFlag;
+
     private final int width = 480;
     private final int height = 800;
 
@@ -53,6 +63,17 @@ public class BawkGame extends Game
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
         music.setLooping(true);
         music.play();
+
+        musicOnFlag = true;
+        soundEffectsOnFlag = true;
+
+        easyFlag = true; //default difficulty is easy
+        mediumFlag = false;
+        hardFlag = false;
+
+        tiltFlag = true; //default playing mode is with accelerometer
+        swipeFlag = false;
+
 
         welcome = new Welcome(this);
         howTo = new HowTo(this);
