@@ -104,7 +104,7 @@ public class Welcome implements Screen {
         playButton = new ImageButton(playDrawableUp, playDrawableDown);
        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7);
+        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 10);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         playButton.addListener(new ChangeListener() {
             @Override
@@ -127,7 +127,7 @@ public class Welcome implements Screen {
         helpDrawableDown.setMinHeight(Gdx.graphics.getWidth()/5);
         howToButton = new ImageButton(helpDrawableUp, helpDrawableDown);
         //howToButton = new TextButton("Help!", skin); // Use the initialized skin
-        howToButton.setPosition(Gdx.graphics.getWidth()/2 + 5, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/7);
+        howToButton.setPosition(Gdx.graphics.getWidth()/2 + 30, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/7);
         //howToButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
         howToButton.addListener(new ChangeListener() {
@@ -152,7 +152,7 @@ public class Welcome implements Screen {
         settingsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/5);
         settingsButton = new ImageButton(settingsDrawableUp, settingsDrawableDown);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        settingsButton.setPosition(Gdx.graphics.getWidth()/4 + 50, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/7);
+        settingsButton.setPosition(Gdx.graphics.getWidth()/4 + 25, Gdx.graphics.getHeight()/7- Gdx.graphics.getWidth()/7);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         settingsButton.addListener(new ChangeListener() {
             @Override
