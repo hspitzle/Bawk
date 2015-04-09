@@ -67,7 +67,8 @@ public class HighScoreScreen implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
-        game.music.play();
+        if (game.musicOnFlag)
+            game.music.play();
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
