@@ -162,7 +162,6 @@ public class Welcome implements Screen {
             }
         });
 
-        
         stage.addActor(howToButton);
         stage.addActor(playButton);
         stage.addActor(settingsButton);
