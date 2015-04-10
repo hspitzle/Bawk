@@ -22,7 +22,7 @@ public class BawkGame extends Game
 
     Music music;
     Sound click;
-
+    boolean pausedFlag;
     boolean soundEffectsOnFlag;
     boolean musicOnFlag;
 
@@ -63,7 +63,7 @@ public class BawkGame extends Game
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
         music.setLooping(true);
         music.play();
-
+        pausedFlag = false;
         musicOnFlag = true;
         soundEffectsOnFlag = true;
 

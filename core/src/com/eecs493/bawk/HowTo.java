@@ -11,6 +11,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -108,6 +109,7 @@ public class HowTo implements Screen {
     @Override
     public void hide() {
         // called when current screen changes from this to a different screen
+        homeButton.setTouchable(Touchable.disabled);
     }
 
     @Override
