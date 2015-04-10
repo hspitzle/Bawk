@@ -71,8 +71,8 @@ public class BawkGame extends Game
         mediumFlag = false;
         hardFlag = false;
 
-        tiltFlag = true; //default playing mode is with accelerometer
-        swipeFlag = false;
+        tiltFlag = false; //default playing mode is with accelerometer
+        swipeFlag = true;
 
 
         welcome = new Welcome(this);
