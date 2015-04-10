@@ -253,7 +253,7 @@ public class Options implements Screen {
         muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(-3 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteSoundsButton.setPosition(-15 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -292,7 +292,7 @@ public class Options implements Screen {
         muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
-        muteMusicButton.setPosition(-55 + 3*Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
         float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -327,12 +327,12 @@ public class Options implements Screen {
         Texture homeTextureDown = new Texture("home2.png");
         SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
         SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
-        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
-        homeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/12);
-        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
-        homeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/11);
         homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
-        homeButton.setPosition(Gdx.graphics.getWidth()/3 + Gdx.graphics.getHeight()/4, Gdx.graphics.getWidth()/17);
+        homeButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         homeButton.addListener(new ChangeListener() {
             @Override

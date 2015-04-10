@@ -58,12 +58,12 @@ public class HowTo implements Screen {
         Texture homeTextureDown = new Texture("home2.png");
         SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
         SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
-        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/7);
-        homeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/12);
-        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/7);
-        homeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/12);
+        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/11);
         homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
-        homeButton.setPosition(Gdx.graphics.getWidth()/3 + Gdx.graphics.getHeight()/4, Gdx.graphics.getWidth()/17);
+        homeButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         homeButton.addListener(new ChangeListener() {
             @Override
