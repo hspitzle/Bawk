@@ -51,6 +51,8 @@ public class Play implements Screen {
     private Texture gameplayImage;
     private Rectangle background;
     private Rectangle gameplay;
+    private Sprite barnSign;
+    private Sprite difficultyMode;
     private Bawk bawk;
 
     private Array<Array<Egg>> eggs;
@@ -111,6 +113,25 @@ public class Play implements Screen {
                                  gameplayImage.getWidth(),
                                  gameplayImage.getWidth());
 
+        Texture signTexture = new Texture("sign2.png");
+        barnSign = new Sprite(signTexture);
+        barnSign.setSize(signTexture.getWidth(), signTexture.getHeight());
+        barnSign.setScale(0.55f, 0.38f);
+        barnSign.setPosition(game.getWidth()/2 - signTexture.getWidth()/2, 560);
+        barnSign.rotate(-2.5f);
+
+        Texture diffModeTexture = new Texture("texteasymode.png");
+        difficultyMode = new Sprite(diffModeTexture);
+        difficultyMode.setPosition(game.getWidth()/2 - diffModeTexture.getWidth()/2, 650);
+        difficultyMode.setSize(diffModeTexture.getWidth(), diffModeTexture.getHeight());
+        difficultyMode.setScale(0.95f);
+        difficultyMode.rotate(-2.5f);
+
+        if(game.difficulty == BawkGame.Difficulty.MEDIUM.getValue())
+            difficultyMode.setTexture(new Texture("textmedmode.png"));
+        else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
+            difficultyMode.setTexture(new Texture("texthardmode.png"));
+
         bawk = new Bawk();
         stage = new Stage();
         eggs = new Array<Array<Egg>>();
@@ -128,7 +149,6 @@ public class Play implements Screen {
         lastLaser = 0;
         lastEggTime = TimeUtils.millis();
         lastMovement = TimeUtils.millis();
-
         movement = 48;
 
         //home button initializing
@@ -273,6 +293,9 @@ public class Play implements Screen {
                 batch.draw(exp.currframe, exp.x, exp.y);
             }
         }
+
+        barnSign.draw(batch);
+        difficultyMode.draw(batch);
 
         batch.end();
     }
