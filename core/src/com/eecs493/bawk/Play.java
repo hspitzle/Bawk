@@ -8,11 +8,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Random;
 
+import sun.rmi.log.LogOutputStream;
 
 
 //import java.awt.Rectangle;
@@ -58,6 +61,26 @@ public class Play implements Screen {
 
     private int movement;
 
+    Texture boomImage;
+    int COLS = 4;
+    int ROWS = 4;
+    Animation boom;
+    Array<TextureRegion> boomRegion;
+
+    public class Explosion{
+        TextureRegion currframe;
+        float statetime;
+        float x, y;
+
+        public Explosion(float x_, float y_) {
+            x = x_;
+            y = y_;
+            statetime = 0f;
+        }
+    }
+    Array<Explosion> explosions;
+
+
     public Play(BawkGame game_){
         game = game_;
     }
@@ -86,10 +109,9 @@ public class Play implements Screen {
         bawk = new Bawk();
 
         eggs = new Array<Array<Egg>>();
-        for(int i=0; i<16; ++i){
+        for(int i=0; i<16; ++i)
             eggs.add(new Array<Egg>());
-        }
-//        font = new BitmapFont(Gdx.files.internal("fontVer2.fnt"), Gdx.files.internal("fontImage.png"), false);
+
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.scale(2);
@@ -138,12 +160,27 @@ public class Play implements Screen {
             }));
         }
 
+        boomImage = new Texture("exp1.png");
+        TextureRegion[][] tmp = TextureRegion.split(boomImage, boomImage.getWidth() / COLS, boomImage.getHeight() / ROWS );
+//        boomRegion = new TextureRegion[ROWS * COLS];
+        boomRegion = new Array<TextureRegion>();
+
+        int index = 0;
+        for(int i = 0; i < ROWS; ++i)
+            for(int j = 0; j < COLS; ++j)
+                boomRegion.add(tmp[i][j]);
+
+        boom = new Animation(.075f,boomRegion);
+
+        explosions = new Array<Explosion>();
+
         spawnEgg();
     }
 
     private void fire(){
         bawk.shoot();
-        laserSound.play();
+        if(game.soundEffectsOnFlag)
+            laserSound.play();
         lastLaser = TimeUtils.millis();
     }
 
@@ -176,6 +213,17 @@ public class Play implements Screen {
         }
 
         font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
+
+        for(Explosion exp : explosions){
+            exp.statetime += Gdx.graphics.getDeltaTime();
+            if(boom.isAnimationFinished(exp.statetime)){
+                explosions.removeValue(exp, false);
+            }
+            else{
+                exp.currframe = boom.getKeyFrame(exp.statetime, false);
+                batch.draw(exp.currframe, exp.x, exp.y);
+            }
+        }
 
         batch.end();
     }
@@ -224,6 +272,7 @@ public class Play implements Screen {
                             arr.removeValue(egg, false); //destroy the egg
                             ++score;
                             ++comboSize;
+                            explosions.add(new Explosion(egg.getX(), egg.getY()));
                         }
                         else //laser and egg are different colors, so swap them
                         {
@@ -256,7 +305,8 @@ public class Play implements Screen {
         int num = rand.nextInt(16);
 
         if(eggs.get(num).size == 4){
-            bawkSound.play();
+            if(game.soundEffectsOnFlag)
+                bawkSound.play();
             game.highScoreScreen.setFinalScore(score);
             game.setScreen(game.gameOver);
         }
