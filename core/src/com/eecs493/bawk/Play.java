@@ -83,19 +83,7 @@ public class Play implements Screen {
     Animation boom;
     Array<TextureRegion> boomRegion;
 
-    public class Explosion{
-        TextureRegion currframe;
-        float statetime;
-        float x, y;
-
-        public Explosion(float x_, float y_) {
-            x = x_;
-            y = y_;
-            statetime = 0f;
-        }
-    }
     Array<Explosion> explosions;
-
 
     public Play(BawkGame game_){
         game = game_;
@@ -215,7 +203,7 @@ public class Play implements Screen {
             Gdx.input.setInputProcessor(im);
         }
         else{
-            InputMultiplexer im = new InputMultiplexer(td, stage); // Order matters here!
+            InputMultiplexer im = new InputMultiplexer(stage, td); // Order matters here!
             Gdx.input.setInputProcessor(im);
         }
 
@@ -301,9 +289,9 @@ public class Play implements Screen {
 
         detectOverlaps();
 
-        long myShotTimer = 220;
-        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer && !game.pausedFlag)
-            fire();
+//        long myShotTimer = 220;
+//        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer && !game.pausedFlag)
+//            fire();
 
         // check if we need to create a new egg
         if(TimeUtils.millis() - lastEggTime > eggTimer) {
@@ -521,7 +509,7 @@ public class Play implements Screen {
 
     private void updateBawkLocation()
     {
-        if(game.swipe || game.pausedFlag)
+        if(game.swipe || game.pausedFlag || bawk.lasers.size > 0)
             return;
 
         long movementTimer = 400;
