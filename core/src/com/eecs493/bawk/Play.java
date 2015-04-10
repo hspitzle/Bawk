@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -46,6 +47,7 @@ public class Play implements Screen {
     private SpriteBatch batch;
 
     private Texture backgroundImage;
+    private Texture pauseBackgroundImage;
     private Texture gameplayImage;
     private Rectangle background;
     private Rectangle gameplay;
@@ -62,8 +64,12 @@ public class Play implements Screen {
 
     private BitmapFont font;
 
-    private ImageButton homeButton;
+    private ImageButton pauseButton;
+    private ImageButton muteSoundsButton;
+    private ImageButton muteMusicButton;
     private Stage stage;
+    private Stage pauseStage;
+    private SimpleDirectionGestureDetector gd;
 
     private Sound laserSound;
     private Sound bawkSound;
@@ -103,8 +109,9 @@ public class Play implements Screen {
 
         laserSound = Gdx.audio.newSound(Gdx.files.internal("laserSound.wav"));
         bawkSound = Gdx.audio.newSound(Gdx.files.internal("bawksound.mp3"));
-        bawkSound.play();
-
+        if (game.soundEffectsOnFlag) {
+            bawkSound.play();
+        }
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
@@ -144,25 +151,25 @@ public class Play implements Screen {
         homeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/11);
         homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/11);
         homeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/11);
-        homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
-        homeButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
+        pauseButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
+        pauseButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        homeButton.addListener(new ChangeListener() {
+        pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
 
-                game.setScreen(game.welcome); //return to the home screen
+                game.pausedFlag = true;
             }
         });
 
-        stage.addActor(homeButton);
+        stage.addActor(pauseButton);
 
         if(game.swipe){
-            SimpleDirectionGestureDetector gd = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+            gd = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
                 @Override
                 public void onUp() {
-                    if(bawk.lasers.size > 0)
+                    if(bawk.lasers.size > 0 || game.pausedFlag)
                         return;
 
                     bawk.moveUp(movement);
@@ -171,7 +178,7 @@ public class Play implements Screen {
 
                 @Override
                 public void onRight() {
-                    if(bawk.lasers.size > 0)
+                    if(bawk.lasers.size > 0 || game.pausedFlag)
                         return;
 
                     bawk.moveRight(movement);
@@ -180,7 +187,7 @@ public class Play implements Screen {
 
                 @Override
                 public void onLeft() {
-                    if(bawk.lasers.size > 0)
+                    if(bawk.lasers.size > 0 || game.pausedFlag)
                         return;
 
                     bawk.moveLeft(movement);
@@ -189,7 +196,7 @@ public class Play implements Screen {
 
                 @Override
                 public void onDown() {
-                    if(bawk.lasers.size > 0)
+                    if(bawk.lasers.size > 0 || game.pausedFlag)
                         return;
 
                     bawk.moveDown(movement);
@@ -222,7 +229,7 @@ public class Play implements Screen {
     }
 
     private void fire(){
-        if(bawk.lasers.size > 0)
+        if(bawk.lasers.size > 0 || game.pausedFlag)
             return;
 
         bawk.shoot();
@@ -279,8 +286,8 @@ public class Play implements Screen {
     public void render(float delta)
     {
         drawBatch();
-        stage.act();
-        stage.draw();
+            stage.act();
+            stage.draw();
 
         //updating & input detection
         updateBawkLocation();
@@ -288,7 +295,7 @@ public class Play implements Screen {
         detectOverlaps();
 
         long myShotTimer = 220;
-        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer)
+        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer && !game.pausedFlag)
             fire();
 
         // check if we need to create a new egg
@@ -303,9 +310,110 @@ public class Play implements Screen {
             timeCounter = 0;
         }
 
+        if (game.pausedFlag == true) {
+            pauseBackgroundImage = new Texture("pausescreen.png");
+            pauseStage = new Stage();
+            batch.begin();
+            batch.draw(pauseBackgroundImage,
+                    game.getWidth()/2 - pauseBackgroundImage.getWidth()/2,
+                    game.getHeight()/2 - pauseBackgroundImage.getHeight()/2,
+                    pauseBackgroundImage.getWidth(), pauseBackgroundImage.getHeight());
+            batch.end();
+            pauseButtons();
+            pauseStage.act();
+            pauseStage.draw();
+            Gdx.input.setInputProcessor(pauseStage);
+        }
 
     }
+    private void pauseButtons(){
+        //muteSounds
+        float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
+        float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
+        float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
+        float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
+        float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
+        Texture muteSoundsTextureUp = new Texture("mute.png");
+        Texture muteSoundsTextureDown = new Texture("mute2.png");
+        SpriteDrawable muteSoundsDrawableUp = new SpriteDrawable(new Sprite(muteSoundsTextureUp));
+        SpriteDrawable muteSoundsDrawableDown = new SpriteDrawable(new Sprite(muteSoundsTextureDown));
+        muteSoundsDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
+        muteSoundsButton.setPosition(-15 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
+        if (game.soundEffectsOnFlag == false) //the user has muted the sound effects
+            muteSoundsButton.toggle();
+
+        muteSoundsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                //if (game.music.isPlaying())
+                //     game.music.pause();
+                // else
+                //     game.music.play();
+
+                if (game.soundEffectsOnFlag == true)
+                    game.soundEffectsOnFlag = false;
+                else
+                    game.soundEffectsOnFlag = true;
+            }
+        });
+
+        //muteMusic
+
+        Texture muteMusicTextureUp = new Texture("mute.png");
+        Texture muteMusicTextureDown = new Texture("mute2.png");
+        SpriteDrawable muteMusicDrawableUp = new SpriteDrawable(new Sprite(muteMusicTextureUp));
+        SpriteDrawable muteMusicDrawableDown = new SpriteDrawable(new Sprite(muteMusicTextureDown));
+        muteMusicDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
+        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        if (game.musicOnFlag == false) //the user has muted the music
+            muteMusicButton.toggle();
+
+        muteMusicButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                //game.setScreen(game.play);
+                // game.difficulty = BawkGame.Difficulty.HARD.getValue();
+                // = BawkGame.Mode.TILT.getValue();
+                if (game.music.isPlaying())
+                {
+                    game.musicOnFlag = false;
+                    game.music.pause();
+                }
+                else
+                {
+                    game.musicOnFlag = true;
+                    game.music.play();
+                }
+            }
+        });
+        pauseStage.addActor(muteMusicButton);
+        pauseStage.addActor(muteSoundsButton);
+    }
     private void detectOverlaps()
     {
         int comboSize = 0;
@@ -361,6 +469,8 @@ public class Play implements Screen {
 
     private void spawnEgg()
     {
+        if (game.pausedFlag)
+            return;
         Random rand = new Random();
         int num = rand.nextInt(16);
 
@@ -404,7 +514,7 @@ public class Play implements Screen {
 
     private void updateBawkLocation()
     {
-        if(game.swipe)
+        if(game.swipe || game.pausedFlag)
             return;
 
         long movementTimer = 400;
@@ -463,6 +573,7 @@ public class Play implements Screen {
     {
         // backgroundImage.dispose();
         // batch.dispose();
+        pauseButton.setTouchable(Touchable.disabled);
         laserSound.dispose();
         bawkSound.dispose();
     }
@@ -471,7 +582,9 @@ public class Play implements Screen {
     public void resize(int width, int height) {}
 
     @Override
-    public void pause() {}
+    public void pause() {
+
+    }
 
     @Override
     public void resume() {}
