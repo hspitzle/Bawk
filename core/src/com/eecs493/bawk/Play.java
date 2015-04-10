@@ -3,6 +3,7 @@ package com.eecs493.bawk;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,6 +17,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -55,6 +61,9 @@ public class Play implements Screen {
     private long lastMovement;
 
     private BitmapFont font;
+
+    private ImageButton homeButton;
+    private Stage stage;
 
     private Sound laserSound;
     private Sound bawkSound;
@@ -107,7 +116,7 @@ public class Play implements Screen {
                                  gameplayImage.getWidth());
 
         bawk = new Bawk();
-
+        stage = new Stage();
         eggs = new Array<Array<Egg>>();
         for(int i=0; i<16; ++i)
             eggs.add(new Array<Egg>());
@@ -126,8 +135,30 @@ public class Play implements Screen {
 
         movement = 48;
 
+        //home button initializing
+        Texture homeTextureUp = new Texture("home.png");
+        Texture homeTextureDown = new Texture("home2.png");
+        SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
+        SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
+        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/11);
+        homeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/11);
+        homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
+        homeButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        homeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                game.setScreen(game.welcome); //return to the home screen
+            }
+        });
+
+        stage.addActor(homeButton);
+
         if(game.swipe){
-            Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+            SimpleDirectionGestureDetector gd = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
                 @Override
                 public void onUp() {
@@ -169,7 +200,9 @@ public class Play implements Screen {
                 public void onTap(){
                     fire();
                 }
-            }));
+            });
+            InputMultiplexer im = new InputMultiplexer(gd, stage); // Order matters here!
+            Gdx.input.setInputProcessor(im);
         }
 
         boomImage = new Texture("exp1.png");
@@ -246,6 +279,8 @@ public class Play implements Screen {
     public void render(float delta)
     {
         drawBatch();
+        stage.act();
+        stage.draw();
 
         //updating & input detection
         updateBawkLocation();
