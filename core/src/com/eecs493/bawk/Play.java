@@ -70,6 +70,7 @@ public class Play implements Screen {
     private Stage stage;
     private Stage pauseStage;
     private SimpleDirectionGestureDetector gd;
+    private SimpleTapDetector td;
 
     private Sound laserSound;
     private Sound bawkSound;
@@ -164,6 +165,12 @@ public class Play implements Screen {
 
         stage.addActor(pauseButton);
 
+        td = new SimpleTapDetector(new SimpleTapDetector.DirectionListener() {
+            @Override
+            public void onTap(){
+                fire();
+        }});
+
         if(game.swipe){
             gd = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
@@ -203,12 +210,12 @@ public class Play implements Screen {
                     keepWithinBounds();
                 }
 
-                @Override
-                public void onTap(){
-                    fire();
-                }
             });
-            InputMultiplexer im = new InputMultiplexer(gd, stage); // Order matters here!
+            InputMultiplexer im = new InputMultiplexer(stage, td, gd); // Order matters here!
+            Gdx.input.setInputProcessor(im);
+        }
+        else{
+            InputMultiplexer im = new InputMultiplexer(td, stage); // Order matters here!
             Gdx.input.setInputProcessor(im);
         }
 
