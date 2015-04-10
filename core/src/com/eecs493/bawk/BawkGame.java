@@ -95,7 +95,6 @@ public class BawkGame extends Game
         return p;
     }
 
-
     public int getNestX()
     {
         return 0;

@@ -79,8 +79,10 @@ public class HighScoreScreen implements Screen {
         else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
-        if (game.musicOnFlag)
+        if (game.musicOnFlag) {
+            game.music.setPosition(0f);
             game.music.play();
+        }
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);

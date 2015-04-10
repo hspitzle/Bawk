@@ -231,7 +231,6 @@ public class Play implements Screen {
         TextureRegion[][] tmp = TextureRegion.split(boomImage, boomImage.getWidth() / COLS, boomImage.getHeight() / ROWS );
         boomRegion = new Array<TextureRegion>();
 
-        int index = 0;
         for(int i = 0; i < ROWS; ++i)
             for(int j = 0; j < COLS; ++j)
                 boomRegion.add(tmp[i][j]);
@@ -311,10 +310,6 @@ public class Play implements Screen {
         updateBawkLocation();
 
         detectOverlaps();
-
-//        long myShotTimer = 220;
-//        if(!game.swipe && Gdx.input.isTouched() && TimeUtils.millis() - lastLaser > myShotTimer && !game.pausedFlag)
-//            fire();
 
         // check if we need to create a new egg
         if(TimeUtils.millis() - lastEggTime > eggTimer) {
@@ -453,7 +448,7 @@ public class Play implements Screen {
                         {
                             Color temp = egg.getColor();
                             egg.setColor(bawk.getColor());
-                            bawk.setColor(temp);
+//                            bawk.setColor(temp);
                             j.setColor(temp);
 //                            bawk.lasers.removeValue(j, false); //destroy the laser
                             j.negateSpeed();
