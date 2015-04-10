@@ -131,24 +131,36 @@ public class Play implements Screen {
 
                 @Override
                 public void onUp() {
+                    if(bawk.lasers.size > 0)
+                        return;
+
                     bawk.moveUp(movement);
                     keepWithinBounds();
                 }
 
                 @Override
                 public void onRight() {
+                    if(bawk.lasers.size > 0)
+                        return;
+
                     bawk.moveRight(movement);
                     keepWithinBounds();
                 }
 
                 @Override
                 public void onLeft() {
+                    if(bawk.lasers.size > 0)
+                        return;
+
                     bawk.moveLeft(movement);
                     keepWithinBounds();
                 }
 
                 @Override
                 public void onDown() {
+                    if(bawk.lasers.size > 0)
+                        return;
+
                     bawk.moveDown(movement);
                     keepWithinBounds();
                 }
@@ -162,7 +174,6 @@ public class Play implements Screen {
 
         boomImage = new Texture("exp1.png");
         TextureRegion[][] tmp = TextureRegion.split(boomImage, boomImage.getWidth() / COLS, boomImage.getHeight() / ROWS );
-//        boomRegion = new TextureRegion[ROWS * COLS];
         boomRegion = new Array<TextureRegion>();
 
         int index = 0;
@@ -178,6 +189,9 @@ public class Play implements Screen {
     }
 
     private void fire(){
+        if(bawk.lasers.size > 0)
+            return;
+
         bawk.shoot();
         if(game.soundEffectsOnFlag)
             laserSound.play();
@@ -249,7 +263,6 @@ public class Play implements Screen {
             timeCounter++;
         }
 
-
         if(timeCounter == 3){
             eggTimer -= (int)(eggTimer*timeReduce);
             timeCounter = 0;
@@ -262,12 +275,13 @@ public class Play implements Screen {
     {
         int comboSize = 0;
 
-        for(Array<Egg> arr : eggs) {
-            for (Egg egg : arr) {
-                for (Laser j : bawk.lasers) {
+        for (Laser j : bawk.lasers) {
+            for(Array<Egg> arr : eggs) {
+                for (Egg egg : arr) {
+
                     if (j.getBoundingRectangle().overlaps(egg.getBoundingRectangle())) {
 
-                        if (bawk.getColor() == egg.getColor()) //the laser and the colliding egg have the same color
+                        if (bawk.getColor() == egg.getColor() && !j.isReversed()) //the laser and the colliding egg have the same color
                         {
                             arr.removeValue(egg, false); //destroy the egg
                             ++score;
@@ -279,11 +293,22 @@ public class Play implements Screen {
                             Color temp = egg.getColor();
                             egg.setColor(bawk.getColor());
                             bawk.setColor(temp);
-                            bawk.lasers.removeValue(j, false); //destroy the laser
+                            j.setColor(temp);
+//                            bawk.lasers.removeValue(j, false); //destroy the laser
+                            j.negateSpeed();
                             break;
                         }
 
                     }
+
+                }
+            }
+
+            if (j.getBoundingRectangle().overlaps(bawk.getBoundingRectangle())) {
+                if (j.isReversed()) //the laser and the colliding egg have the same color
+                {
+                    bawk.lasers.removeValue(j, false); //destroy the laser
+                    bawk.setColor(j.getColor());
                 }
             }
         }
