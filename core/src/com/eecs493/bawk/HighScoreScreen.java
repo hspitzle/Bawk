@@ -39,6 +39,8 @@ public class HighScoreScreen implements Screen {
     private ImageButton retryButton;
     private ImageButton homeButton;
 
+    private Sprite difficultyMode;
+
     public HighScoreScreen(BawkGame game_){
         game = game_;
         finalScore = 0;
@@ -67,12 +69,22 @@ public class HighScoreScreen implements Screen {
 
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
+        Texture diffModeTexture = new Texture("texteasymode.png");
+        difficultyMode = new Sprite(diffModeTexture);
+        difficultyMode.setPosition(game.getWidth()/2 - diffModeTexture.getWidth()/2, 400);
+        difficultyMode.setSize(diffModeTexture.getWidth(), diffModeTexture.getHeight());
+
+        if(game.difficulty == BawkGame.Difficulty.MEDIUM.getValue())
+            difficultyMode.setTexture(new Texture("textmedmode.png"));
+        else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
+            difficultyMode.setTexture(new Texture("texthardmode.png"));
+
         if (game.musicOnFlag)
             game.music.play();
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        font.scale(2);
+        font.scale(1.7f);
 
         updateHighScore();
 
@@ -138,8 +150,10 @@ public class HighScoreScreen implements Screen {
 
         batch.draw(backgroundImage, background.x, background.y);
 
-        font.draw(batch, "Final Score: "+String.valueOf(finalScore), 100, 400);
-        font.draw(batch, "High Score: "+String.valueOf(highScore.getHighScore()), 100, 450);
+        difficultyMode.draw(batch);
+
+        font.draw(batch, "Final Score: "+String.valueOf(finalScore), 110, 380);
+        font.draw(batch, "High Score: "+String.valueOf(highScore.getHighScore()), 110, 430);
 
         batch.end();
     }
