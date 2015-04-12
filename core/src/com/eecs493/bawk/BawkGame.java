@@ -61,8 +61,9 @@ public class BawkGame extends Game
     @Override
     public void create()
     {
-        swipe = true;
-        difficulty = Difficulty.EASY.getValue();
+        //swipe = true;
+        //difficulty = Difficulty.EASY.getValue();
+
 
         prefs = Gdx.app.getPreferences("My Preferences");
 
@@ -70,17 +71,29 @@ public class BawkGame extends Game
 
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
         music.setLooping(true);
-        music.play();
+
         pausedFlag = false;
         musicOnFlag = getMusicPref();
         soundEffectsOnFlag = getSoundFXPref();
+        if(musicOnFlag) music.play();
 
         easyFlag = getEasyPref(); //default difficulty is easy
         mediumFlag = getMediumPref();
         hardFlag = getHardPref();
 
+        if(easyFlag){
+            difficulty = Difficulty.EASY.getValue();
+        }else if(mediumFlag){
+            difficulty = Difficulty.MEDIUM.getValue();
+        }else{
+            difficulty = Difficulty.HARD.getValue();
+        }
+
+
         tiltFlag = !(getSwipePref()); //default playing mode is with accelerometer
         swipeFlag = getSwipePref();
+
+        swipe = swipeFlag;
 
         firstTimeFlag = getFirstTimePref();//default is true
 
