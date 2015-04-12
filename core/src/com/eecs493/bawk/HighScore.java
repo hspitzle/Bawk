@@ -20,7 +20,6 @@ public class HighScore {
 
     public int getHighScore(){
         highscoreString = "highscore"+game.difficulty;
-        System.out.println(highscoreString);
         highscore = prefs.getInteger(highscoreString, 0);
         return highscore;
     }
