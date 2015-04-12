@@ -53,6 +53,7 @@ public class Play implements Screen {
     private Rectangle gameplay;
     private Sprite barnSign;
     private Sprite difficultyMode;
+    private Sprite scorePanel;
     private Bawk bawk;
 
     private Array<Array<Egg>> eggs;
@@ -67,12 +68,16 @@ public class Play implements Screen {
     private BitmapFont font;
 
     private ImageButton pauseButton;
+    private ImageButton resumeButton;
+    private ImageButton quitButton;
     private ImageButton muteSoundsButton;
     private ImageButton muteMusicButton;
     private Stage stage;
     private Stage pauseStage;
     private SimpleDirectionGestureDetector gd;
     private SimpleTapDetector td;
+
+    private InputMultiplexer playInput;
 
     private Sound laserSound;
     private Sound bawkSound;
@@ -113,6 +118,12 @@ public class Play implements Screen {
                                  gameplayImage.getWidth(),
                                  gameplayImage.getWidth());
 
+        Texture scorePanelTexture = new Texture("scorepanel.png");
+        scorePanel = new Sprite(scorePanelTexture);
+        scorePanel.setSize(scorePanelTexture.getWidth(), scorePanelTexture.getHeight());
+        scorePanel.setPosition(game.getWidth()/2 - scorePanelTexture.getWidth()/2, 20);
+        scorePanel.setScale(1.4f, 1f);
+
         Texture signTexture = new Texture("sign2.png");
         barnSign = new Sprite(signTexture);
         barnSign.setSize(signTexture.getWidth(), signTexture.getHeight());
@@ -152,22 +163,23 @@ public class Play implements Screen {
         movement = 48;
 
         //home button initializing
-        Texture homeTextureUp = new Texture("home.png");
-        Texture homeTextureDown = new Texture("home2.png");
-        SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
-        SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
-        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/11);
-        homeDrawableUp.setMinWidth(Gdx.graphics.getWidth()/11);
-        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/11);
-        homeDrawableDown.setMinWidth(Gdx.graphics.getWidth()/11);
-        pauseButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
-        pauseButton.setPosition(29*Gdx.graphics.getWidth()/34, Gdx.graphics.getWidth()/17);
+        Texture pauseTextureUp = new Texture("pause.png");
+        Texture pauseTextureDown = new Texture("pause2.png");
+        SpriteDrawable pauseDrawableUp = new SpriteDrawable(new Sprite(pauseTextureUp));
+        SpriteDrawable pauseDrawableDown = new SpriteDrawable(new Sprite(pauseTextureDown));
+        pauseDrawableUp.setMinHeight(Gdx.graphics.getWidth()/10);
+        pauseDrawableUp.setMinWidth(Gdx.graphics.getWidth()/10);
+        pauseDrawableDown.setMinHeight(Gdx.graphics.getWidth()/10);
+        pauseDrawableDown.setMinWidth(Gdx.graphics.getWidth()/10);
+        pauseButton = new ImageButton(pauseDrawableUp, pauseDrawableDown, pauseDrawableDown);
+        pauseButton.setPosition(20 + 29*Gdx.graphics.getWidth()/34, -10 + 28*Gdx.graphics.getWidth()/17);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
 
                 game.pausedFlag = true;
+                Gdx.input.setInputProcessor(pauseStage);
             }
         });
 
@@ -219,12 +231,12 @@ public class Play implements Screen {
                 }
 
             });
-            InputMultiplexer im = new InputMultiplexer(stage, td, gd); // Order matters here!
-            Gdx.input.setInputProcessor(im);
+            playInput = new InputMultiplexer(stage, td, gd); // Order matters here!
+            Gdx.input.setInputProcessor(playInput);
         }
         else{
-            InputMultiplexer im = new InputMultiplexer(stage, td); // Order matters here!
-            Gdx.input.setInputProcessor(im);
+            playInput = new InputMultiplexer(stage, td); // Order matters here!
+            Gdx.input.setInputProcessor(playInput);
         }
 
         boomImage = new Texture("exp1.png");
@@ -280,6 +292,7 @@ public class Play implements Screen {
                 laser.draw(batch);
         }
 
+        scorePanel.draw(batch);
         font.draw(batch, "Score: "+String.valueOf(score), 150, 100);
 
         for(Explosion exp : explosions){
@@ -336,10 +349,60 @@ public class Play implements Screen {
             pauseStage.act();
             pauseStage.draw();
             Gdx.input.setInputProcessor(pauseStage);
+
         }
 
     }
     private void pauseButtons(){
+
+        Texture quitTextureUp = new Texture("quit.png");
+        Texture quitTextureDown = new Texture("quit2.png");
+        SpriteDrawable quitDrawableUp = new SpriteDrawable(new Sprite(quitTextureUp));
+        SpriteDrawable quitDrawableDown = new SpriteDrawable(new Sprite(quitTextureDown));
+        quitDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
+        quitDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        quitDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
+        quitDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        resumeButton = new ImageButton(quitDrawableUp, quitDrawableDown);
+        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
+        //playButton = new TextButton("Play!", skin); // Use the initialized skin
+
+        resumeButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        resumeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //TODO: launch "are you sure" window
+            }
+        });
+
+        Texture resumeTextureUp = new Texture("resume.png");
+        Texture resumeTextureDown = new Texture("resume2.png");
+        SpriteDrawable resumeDrawableUp = new SpriteDrawable(new Sprite(resumeTextureUp));
+        SpriteDrawable resumeDrawableDown = new SpriteDrawable(new Sprite(resumeTextureDown));
+        resumeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
+        resumeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        resumeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
+        resumeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        resumeButton = new ImageButton(resumeDrawableUp, resumeDrawableDown);
+        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
+        //playButton = new TextButton("Play!", skin); // Use the initialized skin
+
+        resumeButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        resumeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
+                game.pausedFlag = false;
+                Gdx.input.setInputProcessor(playInput);
+            }
+        });
+
         //muteSounds
         float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
         float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
@@ -355,7 +418,7 @@ public class Play implements Screen {
         muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(-15 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteSoundsButton.setPosition(-25 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28) + 340);
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -395,7 +458,7 @@ public class Play implements Screen {
         muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
-        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28) + 340);
         float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -424,6 +487,8 @@ public class Play implements Screen {
                 }
             }
         });
+
+        pauseStage.addActor(resumeButton);
         pauseStage.addActor(muteMusicButton);
         pauseStage.addActor(muteSoundsButton);
     }
