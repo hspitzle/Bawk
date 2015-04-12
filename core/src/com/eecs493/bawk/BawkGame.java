@@ -20,6 +20,7 @@ public class BawkGame extends Game
     Play play;
     GameOver gameOver;
     HighScoreScreen highScoreScreen;
+    IntroScreen introScreen;
 
     Music music;
     Sound click;
@@ -89,8 +90,14 @@ public class BawkGame extends Game
         play = new Play(this);
         gameOver = new GameOver(this);
         highScoreScreen = new HighScoreScreen(this);
+        introScreen = new IntroScreen(this);
 
-        setScreen(welcome);
+        if(firstTimeFlag){
+            setScreen(introScreen);
+            firstTimeFlag = false;
+            setFirstTimePref(firstTimeFlag);
+        }
+        else setScreen(welcome);
     }
 
     public int getWidth() { return width; }
