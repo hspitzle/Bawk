@@ -121,7 +121,7 @@ public class Options implements Screen {
         easyButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2);
         float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        if (game.easyFlag)
+        if (game.getEasyPref())
             easyButton.toggle();
         easyButton.addListener(new ChangeListener() {
             @Override
@@ -136,6 +136,10 @@ public class Options implements Screen {
                 game.easyFlag = true;
                 game.mediumFlag = false;
                 game.hardFlag = false;
+
+                game.setEasyPref(game.easyFlag);
+                game.setMediumPref(game.mediumFlag);
+                game.setHardPref(game.hardFlag);
             }
         });
 
@@ -152,7 +156,7 @@ public class Options implements Screen {
         mediumButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11, easyPosition - (3*Gdx.graphics.getWidth()/28));
         float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        if (game.mediumFlag)
+        if (game.getMediumPref())
             mediumButton.toggle();
         mediumButton.addListener(new ChangeListener() {
             @Override
@@ -167,6 +171,10 @@ public class Options implements Screen {
                 game.easyFlag = false;
                 game.mediumFlag = true;
                 game.hardFlag = false;
+
+                game.setEasyPref(game.easyFlag);
+                game.setMediumPref(game.mediumFlag);
+                game.setHardPref(game.hardFlag);
             }
         });
 
@@ -183,7 +191,7 @@ public class Options implements Screen {
         hardButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , mediumPosition - (3*Gdx.graphics.getWidth()/28));
         float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        if (game.hardFlag)
+        if (game.getHardPref())
             hardButton.toggle();
 
         hardButton.addListener(new ChangeListener() {
@@ -198,6 +206,10 @@ public class Options implements Screen {
                 game.easyFlag = false;
                 game.mediumFlag = false;
                 game.hardFlag = true;
+
+                game.setEasyPref(game.easyFlag);
+                game.setMediumPref(game.mediumFlag);
+                game.setHardPref(game.hardFlag);
             }
         });
 
@@ -220,7 +232,7 @@ public class Options implements Screen {
         swipeButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , hardPosition - 2*(3*Gdx.graphics.getWidth()/28));
         float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        if (game.swipeFlag == true)
+        if (game.getSwipePref())
         {
             swipeButton.toggle();
         }
@@ -235,6 +247,7 @@ public class Options implements Screen {
                 game.swipe = true;
                 game.swipeFlag = true;
                 game.tiltFlag = false;
+                game.setSwipePref(game.swipeFlag);
             }
         });
 
@@ -251,7 +264,7 @@ public class Options implements Screen {
         tiltButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/11 , swipePosition - (3*Gdx.graphics.getWidth()/28));
         float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        if (game.tiltFlag == true)
+        if (!game.getSwipePref())
         {
             tiltButton.toggle();
         }
@@ -268,6 +281,7 @@ public class Options implements Screen {
                 game.swipe = false;
                 game.swipeFlag = false;
                 game.tiltFlag = true;
+                game.setSwipePref(game.swipeFlag);
             }
         });
 
@@ -285,7 +299,7 @@ public class Options implements Screen {
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
-        if (game.soundEffectsOnFlag == false) //the user has muted the sound effects
+        if (!game.getSoundFXPref()) //the user has muted the sound effects
             muteSoundsButton.toggle();
 
         muteSoundsButton.addListener(new ChangeListener() {
@@ -303,10 +317,12 @@ public class Options implements Screen {
                // else
                //     game.music.play();
 
-                if (game.soundEffectsOnFlag == true)
+                if (game.getSoundFXPref())
                     game.soundEffectsOnFlag = false;
                 else
                     game.soundEffectsOnFlag = true;
+
+                game.setSoundFXPref(game.soundEffectsOnFlag);
             }
         });
 
@@ -324,7 +340,7 @@ public class Options implements Screen {
         float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
-        if (game.musicOnFlag == false) //the user has muted the music
+        if (!game.getMusicPref()) //the user has muted the music
             muteMusicButton.toggle();
 
         muteMusicButton.addListener(new ChangeListener() {
@@ -347,6 +363,8 @@ public class Options implements Screen {
                     game.musicOnFlag = true;
                     game.music.play();
                 }
+
+                game.setMusicPref(game.musicOnFlag);
             }
         });
 

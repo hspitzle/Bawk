@@ -2,6 +2,7 @@ package com.eecs493.bawk;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,6 +20,7 @@ public class BawkGame extends Game
     Play play;
     GameOver gameOver;
     HighScoreScreen highScoreScreen;
+    IntroScreen introScreen;
 
     Music music;
     Sound click;
@@ -32,6 +34,10 @@ public class BawkGame extends Game
 
     boolean tiltFlag;
     boolean swipeFlag;
+
+    boolean firstTimeFlag;
+
+    private Preferences prefs;
 
     private final int width = 480;
     private final int height = 800;
@@ -58,22 +64,25 @@ public class BawkGame extends Game
         swipe = true;
         difficulty = Difficulty.EASY.getValue();
 
+        prefs = Gdx.app.getPreferences("My Preferences");
+
         click = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("jauntygumption.mp3"));
         music.setLooping(true);
         music.play();
         pausedFlag = false;
-        musicOnFlag = true;
-        soundEffectsOnFlag = true;
+        musicOnFlag = getMusicPref();
+        soundEffectsOnFlag = getSoundFXPref();
 
-        easyFlag = true; //default difficulty is easy
-        mediumFlag = false;
-        hardFlag = false;
+        easyFlag = getEasyPref(); //default difficulty is easy
+        mediumFlag = getMediumPref();
+        hardFlag = getHardPref();
 
-        tiltFlag = false; //default playing mode is with accelerometer
-        swipeFlag = true;
+        tiltFlag = !(getSwipePref()); //default playing mode is with accelerometer
+        swipeFlag = getSwipePref();
 
+        firstTimeFlag = getFirstTimePref();//default is true
 
         welcome = new Welcome(this);
         howTo = new HowTo(this);
@@ -81,8 +90,14 @@ public class BawkGame extends Game
         play = new Play(this);
         gameOver = new GameOver(this);
         highScoreScreen = new HighScoreScreen(this);
+        introScreen = new IntroScreen(this);
 
-        setScreen(welcome);
+        if(firstTimeFlag){
+            setScreen(introScreen);
+            firstTimeFlag = false;
+            setFirstTimePref(firstTimeFlag);
+        }
+        else setScreen(welcome);
     }
 
     public int getWidth() { return width; }
@@ -137,4 +152,76 @@ public class BawkGame extends Game
 
         return y[row] + getNestY();
     }
+
+
+    public boolean getEasyPref() {
+        return prefs.getBoolean("Easy", true);
+    }
+
+    public void setEasyPref(boolean diff){
+        prefs.putBoolean("Easy", diff);
+        prefs.flush();
+    }
+
+    public boolean getMediumPref() {
+        return prefs.getBoolean("Medium", false);
+    }
+
+    public void setMediumPref(boolean diff){
+        prefs.putBoolean("Medium", diff);
+        prefs.flush();
+    }
+
+    public boolean getHardPref() {
+        return prefs.getBoolean("Hard", false);
+    }
+
+    public void setHardPref(boolean diff){
+        prefs.putBoolean("Hard", diff);
+        prefs.flush();
+    }
+
+
+    //true if sound fx are on
+    public boolean getSoundFXPref(){
+        return prefs.getBoolean("SoundFX", true);
+    }
+
+    public void setSoundFXPref(boolean soundFX){
+        prefs.putBoolean("SoundFX", soundFX);
+        prefs.flush();
+    }
+
+
+    //true if music is on
+    public boolean getMusicPref(){
+        return prefs.getBoolean("Music", true);
+    }
+
+    public void setMusicPref(boolean music){
+        prefs.putBoolean("Music", music);
+        prefs.flush();
+    }
+
+    //true if first time playing
+    public boolean getFirstTimePref(){
+        return prefs.getBoolean("FirstTime", true);
+    }
+
+    public void setFirstTimePref(boolean firstTime){
+        prefs.putBoolean("FirstTime", firstTime);
+        prefs.flush();
+    }
+
+
+    //true if in swipe mode
+    public boolean getSwipePref(){
+        return prefs.getBoolean("SwipeMode", true);
+    }
+
+    public void setSwipePref(boolean swipe){
+        prefs.putBoolean("SwipeMode", swipe);
+        prefs.flush();
+    }
+
 }

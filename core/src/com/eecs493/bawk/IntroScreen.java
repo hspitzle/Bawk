@@ -42,8 +42,7 @@ public class IntroScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //TODO: change to intro screen
-        backgroundImage = new Texture("howtoscreen.png");
+        backgroundImage = new Texture("introscreen.png");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
@@ -52,9 +51,8 @@ public class IntroScreen implements Screen {
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
 
         //home button initializing
-        //TODO: change to check button
-        Texture checkTextureUp = new Texture("home.png");
-        Texture checkTextureDown = new Texture("home2.png");
+        Texture checkTextureUp = new Texture("check.png");
+        Texture checkTextureDown = new Texture("check2.png");
         SpriteDrawable checkDrawableUp = new SpriteDrawable(new Sprite(checkTextureUp));
         SpriteDrawable checkDrawableDown = new SpriteDrawable(new Sprite(checkTextureDown));
         checkDrawableUp.setMinHeight(Gdx.graphics.getWidth()/11);
@@ -67,7 +65,6 @@ public class IntroScreen implements Screen {
         homeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-
                 game.setScreen(game.welcome); //return to the home screen
             }
         });
