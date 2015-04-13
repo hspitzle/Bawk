@@ -300,8 +300,11 @@ public class Play implements Screen {
 
         for(Laser laser : bawk.lasers) {
             laser.update();
-            if(!laser.getBoundingRectangle().overlaps(gameplay))
+
+            if(!laser.getBoundingRectangle().overlaps(gameplay)) {
+                multiplyScore(laser.comboSize);
                 bawk.lasers.removeValue(laser, false); //destroy the laser
+            }
             else
                 laser.draw(batch);
         }
@@ -345,7 +348,7 @@ public class Play implements Screen {
             timeCounter++;
         }
 
-        if(timeCounter == 3){
+        if(timeCounter == 2){
             eggTimer -= (int)(eggTimer*timeReduce);
             timeCounter = 0;
         }
@@ -567,7 +570,7 @@ public class Play implements Screen {
     }
     private void detectOverlaps()
     {
-        int comboSize = 0;
+
 
         for (Laser j : bawk.lasers) {
             for(Array<Egg> arr : eggs) {
@@ -579,11 +582,13 @@ public class Play implements Screen {
                         {
                             arr.removeValue(egg, false); //destroy the egg
                             ++score;
-                            ++comboSize;
+                            j.comboSize += 1;
+                            System.out.println("Here "+ j.comboSize);
                             explosions.add(new Explosion(egg.getX(), egg.getY()));
                         }
                         else //laser and egg are different colors, so swap them
                         {
+
                             Color temp = egg.getColor();
                             egg.setColor(bawk.getColor());
 //                            bawk.setColor(temp);
@@ -601,12 +606,19 @@ public class Play implements Screen {
             if (j.getBoundingRectangle().overlaps(bawk.getBoundingRectangle())) {
                 if (j.isReversed()) //the laser and the colliding egg have the same color
                 {
+                    System.out.println("There "+ j.comboSize);
+
+                    multiplyScore(j.comboSize);
                     bawk.lasers.removeValue(j, false); //destroy the laser
                     bawk.setColor(j.getColor());
+
                 }
             }
         }
 
+    }
+
+    public void multiplyScore(int comboSize){
         int multiplier = 0;
         if(comboSize == 2)
             multiplier = 1;
