@@ -117,11 +117,11 @@ public class BawkGame extends Game
     public int getHeight() { return height; }
 
     public int scaledX(int pixels){
-        return pixels * (Gdx.graphics.getWidth() / width);
+        return (int)(pixels * (Gdx.graphics.getWidth() / (float) width));
     }
 
     public int scaledY(int pixels){
-        return pixels * (Gdx.graphics.getHeight() / height);
+        return (int)(pixels * (Gdx.graphics.getHeight() / (float)height));
     }
 
     public Point gridLocation()

@@ -122,7 +122,7 @@ public class Welcome implements Screen {
         haydenEgg.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350));
+                authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350, true));
             }
         });
         stage.addActor(haydenEgg);
@@ -215,8 +215,10 @@ public class Welcome implements Screen {
         for(Author author : authors){
             if(TimeUtils.millis() > author.timeCreated + 3000)
                 authors.removeValue(author, false);
-            else
+            else {
+                author.draw(batch);
                 authorFont.draw(batch, author.name, author.x, author.y);
+            }
         }
 
         batch.end();
