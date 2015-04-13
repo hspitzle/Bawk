@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by Hayden on 4/2/2015.
@@ -34,6 +35,8 @@ public class HighScoreScreen implements Screen {
     private HighScore highScore;
 
     private BitmapFont font;
+
+    private Music endMusic;
 
     private Stage stage;
     private ImageButton retryButton;
@@ -79,9 +82,11 @@ public class HighScoreScreen implements Screen {
         else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
+        endMusic = Gdx.audio.newMusic(Gdx.files.internal("highscoremusic.mp3"));
+
         if (game.musicOnFlag) {
-            game.music.setPosition(0f);
-            game.music.play();
+            endMusic.setLooping(true);
+            endMusic.play();
         }
 
         font = new BitmapFont();
@@ -109,7 +114,7 @@ public class HighScoreScreen implements Screen {
         retryButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.music.stop();
+                endMusic.stop();
                 game.setScreen(game.play);
             }
         });
@@ -130,7 +135,12 @@ public class HighScoreScreen implements Screen {
         homeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                endMusic.stop();
                 game.setScreen(game.welcome);
+                if (game.musicOnFlag) {
+                    game.music.setPosition(0f);
+                    game.music.play();
+                }
             }
         });
 
