@@ -111,6 +111,8 @@ public class Welcome implements Screen {
 
         authors = new Array<Author>();
         addAuthorEggs();
+
+        if(game.musicOnFlag) game.music.play();
     }
 
     private void addAuthorEggs(){

@@ -75,7 +75,6 @@ public class BawkGame extends Game
         pausedFlag = false;
         musicOnFlag = getMusicPref();
         soundEffectsOnFlag = getSoundFXPref();
-        if(musicOnFlag) music.play();
 
         easyFlag = getEasyPref(); //default difficulty is easy
         mediumFlag = getMediumPref();
