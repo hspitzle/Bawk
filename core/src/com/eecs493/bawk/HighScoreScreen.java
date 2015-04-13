@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by Hayden on 4/2/2015.
@@ -80,8 +81,10 @@ public class HighScoreScreen implements Screen {
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
         if (game.musicOnFlag) {
-            game.music.setPosition(0f);
-            game.music.play();
+            //game.music.setPosition(0f);
+            Music endMusic = Gdx.audio.newMusic(Gdx.files.internal("highscoremusic.mp3"));
+            endMusic.setLooping(true);
+            endMusic.play();
         }
 
         font = new BitmapFont();
