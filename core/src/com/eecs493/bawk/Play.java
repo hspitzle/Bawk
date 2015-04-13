@@ -4,6 +4,7 @@ package com.eecs493.bawk;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -86,6 +87,8 @@ public class Play implements Screen {
 
     private Sound laserSound;
     private Sound bawkSound;
+    private Sound eggExplode;
+    private Music gameplayMusic;
 
     private int movement;
 
@@ -122,6 +125,14 @@ public class Play implements Screen {
         if (game.soundEffectsOnFlag) {
             bawkSound.play();
         }
+
+        eggExplode = Gdx.audio.newSound(Gdx.files.internal("egggoesboom.wav"));
+
+        gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("gameplaymusic.mp3"));
+        gameplayMusic.setLooping(true);
+        if(game.musicOnFlag)
+            gameplayMusic.play();
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
@@ -550,15 +561,15 @@ public class Play implements Screen {
                 //game.setScreen(game.play);
                 // game.difficulty = BawkGame.Difficulty.HARD.getValue();
                 // = BawkGame.Mode.TILT.getValue();
-                if (game.music.isPlaying())
+                if (gameplayMusic.isPlaying())
                 {
                     game.musicOnFlag = false;
-                    game.music.pause();
+                    gameplayMusic.pause();
                 }
                 else
                 {
                     game.musicOnFlag = true;
-                    game.music.play();
+                    gameplayMusic.play();
                 }
             }
         });
@@ -585,6 +596,8 @@ public class Play implements Screen {
                             j.comboSize += 1;
                             System.out.println("Here "+ j.comboSize);
                             explosions.add(new Explosion(egg.getX(), egg.getY()));
+                            if(game.soundEffectsOnFlag)
+                                eggExplode.play();
                         }
                         else //laser and egg are different colors, so swap them
                         {
@@ -640,6 +653,8 @@ public class Play implements Screen {
         if(eggs.get(num).size == 4){
             if(game.soundEffectsOnFlag)
                 bawkSound.play();
+
+            gameplayMusic.stop();
             game.highScoreScreen.setFinalScore(score);
             game.setScreen(game.gameOver);
         }

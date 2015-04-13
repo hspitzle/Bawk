@@ -207,15 +207,17 @@ public class Welcome implements Screen {
         Texture playTextureDown = new Texture("playpressed.png");
         SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
         SpriteDrawable playDrawableDown = new SpriteDrawable(new Sprite(playTextureDown));
-        playDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
-        playDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        playDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
-        playDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        playDrawableUp.setMinHeight(1.5f * game.scaledY(playTextureUp.getHeight()));
+        playDrawableUp.setMinWidth(1.5f * game.scaledX(playTextureUp.getWidth()));
+        playDrawableDown.setMinHeight(1.5f * game.scaledY(playTextureDown.getHeight()));
+        playDrawableDown.setMinWidth(1.5f * game.scaledX(playTextureDown.getWidth()));
         playButton = new ImageButton(playDrawableUp, playDrawableDown);
         // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
 
-        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+//        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+        playButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(1.5f*playTextureUp.getWidth()/2)),
+                Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         playButton.addListener(new ChangeListener() {
             @Override
