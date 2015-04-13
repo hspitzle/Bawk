@@ -24,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 //import java.awt.Rectangle;
 
@@ -36,17 +38,23 @@ public class Welcome implements Screen {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
+    private BitmapFont authorFont;
 
     private Texture backgroundImage;
     private Rectangle background;
     private ImageButton howToButton;
     private ImageButton playButton;
     private ImageButton settingsButton;
+
+    private ImageButton haydenEgg;
+
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private BitmapFont font;
     private TextButton.TextButtonStyle textButtonStyle;
     private Stage stage;
+
+    private Array<Author> authors;
 
     public Welcome(BawkGame game_){
         game = game_;
@@ -85,14 +93,42 @@ public class Welcome implements Screen {
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
         batch = new SpriteBatch();
 
+        authorFont = new BitmapFont();
+        authorFont.setColor(Color.WHITE);
+
         background = new Rectangle(0, 0, game.getWidth(), game.getHeight());
         backgroundImage = new Texture("titlescreen.png");
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         createBasicSkin();
-        System.out.println("Show");
 
+        addButtons();
+
+        authors = new Array<Author>();
+        addAuthorEggs();
+
+//        authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350));
+
+    }
+
+    private void addAuthorEggs(){
+        Texture haydenTextureUp = new Texture("egg_blue.png");
+        SpriteDrawable haydenDrawableUp = new SpriteDrawable(new Sprite(haydenTextureUp));
+        haydenDrawableUp.setMinWidth(haydenTextureUp.getWidth());
+        haydenDrawableUp.setMinHeight(haydenTextureUp.getHeight());
+        haydenEgg = new ImageButton(haydenDrawableUp, haydenDrawableUp);
+        haydenEgg.setPosition(game.scaledX(game.getWidth()/2), game.scaledY(game.getHeight()/2));
+        haydenEgg.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350));
+            }
+        });
+        stage.addActor(haydenEgg);
+    }
+
+    private void addButtons(){
         Texture playTextureUp = new Texture("play.png");
         Texture playTextureDown = new Texture("playpressed.png");
         SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
@@ -102,7 +138,7 @@ public class Welcome implements Screen {
         playDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
         playDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
         playButton = new ImageButton(playDrawableUp, playDrawableDown);
-       // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
+        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
 
         playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
@@ -111,9 +147,9 @@ public class Welcome implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
 
-              //  playButton.setTouchable(Touchable.disabled);
-              //  howToButton.setTouchable(Touchable.disabled);
-              //  settingsButton.setTouchable(Touchable.disabled);
+                //  playButton.setTouchable(Touchable.disabled);
+                //  howToButton.setTouchable(Touchable.disabled);
+                //  settingsButton.setTouchable(Touchable.disabled);
                 game.music.stop();
                 game.setScreen(game.play);
             }
@@ -161,7 +197,6 @@ public class Welcome implements Screen {
         stage.addActor(howToButton);
         stage.addActor(playButton);
         stage.addActor(settingsButton);
-
     }
 
     private void drawBatch()
@@ -176,6 +211,13 @@ public class Welcome implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.draw(backgroundImage, background.x, background.y);
+
+        for(Author author : authors){
+            if(TimeUtils.millis() > author.timeCreated + 3000)
+                authors.removeValue(author, false);
+            else
+                authorFont.draw(batch, author.name, author.x, author.y);
+        }
 
         batch.end();
     }
