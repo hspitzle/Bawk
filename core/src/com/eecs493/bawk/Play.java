@@ -48,6 +48,7 @@ public class Play implements Screen {
 
     private Texture backgroundImage;
     private Texture pauseBackgroundImage;
+    private Texture quitConfirmationImage;
     private Texture gameplayImage;
     private Rectangle background;
     private Rectangle gameplay;
@@ -64,16 +65,20 @@ public class Play implements Screen {
     private long lastLaser;
     private long lastEggTime;
     private long lastMovement;
+    private boolean quitFlag;
 
     private BitmapFont font;
 
     private ImageButton pauseButton;
     private ImageButton resumeButton;
     private ImageButton quitButton;
+    private ImageButton noButton;
+    private ImageButton yesButton;
     private ImageButton muteSoundsButton;
     private ImageButton muteMusicButton;
     private Stage stage;
     private Stage pauseStage;
+    private Stage quitConfirmationStage;
     private SimpleDirectionGestureDetector gd;
     private SimpleTapDetector td;
 
@@ -99,6 +104,15 @@ public class Play implements Screen {
     @Override
     public void show()
     {
+
+        pauseStage = new Stage();
+        pauseButtons();
+        quitConfirmationStage = new Stage();
+        quitButtons();
+
+        pauseBackgroundImage = new Texture("pausescreen.png");
+        quitConfirmationImage = new Texture("areyousure.png");
+
         System.out.println("Show");
         backgroundImage = new Texture("gamebackground.png");
         gameplayImage = new Texture("gameplayarea.png");
@@ -172,7 +186,7 @@ public class Play implements Screen {
         pauseDrawableDown.setMinHeight(Gdx.graphics.getWidth()/10);
         pauseDrawableDown.setMinWidth(Gdx.graphics.getWidth()/10);
         pauseButton = new ImageButton(pauseDrawableUp, pauseDrawableDown, pauseDrawableDown);
-        pauseButton.setPosition(20 + 29*Gdx.graphics.getWidth()/34, -10 + 28*Gdx.graphics.getWidth()/17);
+        pauseButton.setPosition(20 + 29*Gdx.graphics.getWidth()/34, Gdx.graphics.getHeight() - Gdx.graphics.getWidth()/10);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         pauseButton.addListener(new ChangeListener() {
             @Override
@@ -336,24 +350,85 @@ public class Play implements Screen {
             timeCounter = 0;
         }
 
-        if (game.pausedFlag == true) {
-            pauseBackgroundImage = new Texture("pausescreen.png");
-            pauseStage = new Stage();
+        if (game.pausedFlag) {
             batch.begin();
             batch.draw(pauseBackgroundImage,
                     game.getWidth()/2 - pauseBackgroundImage.getWidth()/2,
                     game.getHeight()/2 - pauseBackgroundImage.getHeight()/2,
                     pauseBackgroundImage.getWidth(), pauseBackgroundImage.getHeight());
             batch.end();
-            pauseButtons();
             pauseStage.act();
             pauseStage.draw();
-            Gdx.input.setInputProcessor(pauseStage);
+            if (quitFlag){
+                batch.begin();
+                batch.draw(quitConfirmationImage, game.getWidth()/2 - quitConfirmationImage.getWidth()/2,
+                        game.getHeight()/2 - quitConfirmationImage.getHeight()/2,
+                        quitConfirmationImage.getWidth(), quitConfirmationImage.getHeight());
+                batch.end();
+                quitConfirmationStage.act();
+                quitConfirmationStage.draw();
+            }
+
 
         }
 
     }
+    private void quitButtons(){
+        Texture yesTextureUp = new Texture("yes.png");
+        Texture yesTextureDown = new Texture("yes2.png");
+        SpriteDrawable yesDrawableUp = new SpriteDrawable(new Sprite(yesTextureUp));
+        SpriteDrawable yesDrawableDown = new SpriteDrawable(new Sprite(yesTextureDown));
+        yesDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        yesDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        yesDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        yesDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
+        yesButton = new ImageButton(yesDrawableUp, yesDrawableDown, yesDrawableDown);
+        yesButton.setPosition(game.scaledX(game.getWidth()/3),
+                game.scaledY((int)(game.getHeight()/2 + yesButton.getHeight())));
+        float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        yesButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+
+                quitFlag = false;
+                game.pausedFlag = false;
+                game.setScreen(game.welcome);
+
+            }
+        });
+        Texture noTextureUp = new Texture("no.png");
+        Texture noTextureDown = new Texture("no2.png");
+        SpriteDrawable noDrawableUp = new SpriteDrawable(new Sprite(noTextureUp));
+        SpriteDrawable noDrawableDown = new SpriteDrawable(new Sprite(noTextureDown));
+        noDrawableUp.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        noDrawableUp.setMinWidth(Gdx.graphics.getWidth()/3);
+        noDrawableDown.setMinHeight(3*Gdx.graphics.getWidth()/28);
+        noDrawableDown.setMinWidth(Gdx.graphics.getWidth()/3);
+        noButton = new ImageButton(noDrawableUp, noDrawableDown, noDrawableDown);
+        noButton.setPosition(game.scaledX((int)(game.getWidth()/3)), game.scaledY(game.getHeight()/2));
+        float noPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
+        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+
+        noButton.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                quitFlag = false;
+                Gdx.input.setInputProcessor(pauseStage);
+
+            }
+        });
+        quitConfirmationStage.addActor(noButton);
+        quitConfirmationStage.addActor(yesButton);
+    }
     private void pauseButtons(){
+
+        float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
+        float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
+        float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
+        float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
+        float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
 
         Texture quitTextureUp = new Texture("quit.png");
         Texture quitTextureDown = new Texture("quit2.png");
@@ -363,17 +438,19 @@ public class Play implements Screen {
         quitDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
         quitDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
         quitDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        resumeButton = new ImageButton(quitDrawableUp, quitDrawableDown);
+        quitButton = new ImageButton(quitDrawableUp, quitDrawableDown);
         // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
 
-        resumeButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+        quitButton.setPosition(game.scaledX((int)(game.getWidth()/2 - quitButton.getWidth()/2)),game.scaledY((int)(game.getHeight()/2 + quitButton.getHeight())));
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        resumeButton.addListener(new ChangeListener() {
+        quitButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
 
                 //TODO: launch "are you sure" window
+                quitFlag = true;
+                Gdx.input.setInputProcessor(quitConfirmationStage);
             }
         });
 
@@ -389,7 +466,7 @@ public class Play implements Screen {
         // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
         //playButton = new TextButton("Play!", skin); // Use the initialized skin
 
-        resumeButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
+        resumeButton.setPosition(game.scaledX((int)(game.getWidth()/2 - resumeButton.getWidth()/2)), game.scaledY((int)(game.getHeight()/2)));
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         resumeButton.addListener(new ChangeListener() {
             @Override
@@ -404,11 +481,6 @@ public class Play implements Screen {
         });
 
         //muteSounds
-        float easyPosition = Gdx.graphics.getWidth()/6 + Gdx.graphics.getHeight()/2;
-        float mediumPosition = easyPosition - (3*Gdx.graphics.getWidth()/28);
-        float hardPosition = mediumPosition - (3*Gdx.graphics.getWidth()/28);
-        float swipePosition = hardPosition - 2*(3*Gdx.graphics.getWidth()/28);
-        float tiltPosition = swipePosition - (3*Gdx.graphics.getWidth()/28);
         Texture muteSoundsTextureUp = new Texture("mute.png");
         Texture muteSoundsTextureDown = new Texture("mute2.png");
         SpriteDrawable muteSoundsDrawableUp = new SpriteDrawable(new Sprite(muteSoundsTextureUp));
@@ -418,7 +490,7 @@ public class Play implements Screen {
         muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(-25 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28) + 340);
+        muteSoundsButton.setPosition(-25 + Gdx.graphics.getWidth()/4 , 2*Gdx.graphics.getHeight()/5);
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -458,7 +530,7 @@ public class Play implements Screen {
         muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
         muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
         muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
-        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28) + 340);
+        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , 2*Gdx.graphics.getHeight()/5);//tiltPosition - 5*(3*Gdx.graphics.getWidth()/28));
         float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -491,6 +563,7 @@ public class Play implements Screen {
         pauseStage.addActor(resumeButton);
         pauseStage.addActor(muteMusicButton);
         pauseStage.addActor(muteSoundsButton);
+        pauseStage.addActor(quitButton);
     }
     private void detectOverlaps()
     {
