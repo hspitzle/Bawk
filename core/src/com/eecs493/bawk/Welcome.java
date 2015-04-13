@@ -47,6 +47,10 @@ public class Welcome implements Screen {
     private ImageButton settingsButton;
 
     private ImageButton haydenEgg;
+    private ImageButton danielEgg;
+    private ImageButton aliEgg;
+    private ImageButton katieEgg;
+    private ImageButton mattEgg;
 
     private Skin skin;
     private TextureAtlas buttonAtlas;
@@ -107,25 +111,93 @@ public class Welcome implements Screen {
 
         authors = new Array<Author>();
         addAuthorEggs();
-
-//        authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350));
-
     }
 
     private void addAuthorEggs(){
-        Texture haydenTextureUp = new Texture("egg_blue.png");
-        SpriteDrawable haydenDrawableUp = new SpriteDrawable(new Sprite(haydenTextureUp));
-        haydenDrawableUp.setMinWidth(haydenTextureUp.getWidth());
-        haydenDrawableUp.setMinHeight(haydenTextureUp.getHeight());
-        haydenEgg = new ImageButton(haydenDrawableUp, haydenDrawableUp);
-        haydenEgg.setPosition(game.scaledX(game.getWidth()/2), game.scaledY(game.getHeight()/2));
+        //hayden: red
+        Texture textureUp = new Texture("red_egg.png");
+        SpriteDrawable drawableUp = new SpriteDrawable(new Sprite(textureUp));
+        drawableUp.setMinWidth(0.75f * game.scaledX(textureUp.getWidth()));
+        drawableUp.setMinHeight(0.75f * game.scaledY(textureUp.getHeight()));
+        haydenEgg = new ImageButton(drawableUp, drawableUp);
+        haydenEgg.setPosition(game.scaledX(65), game.scaledY(188));
         haydenEgg.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                authors.add(new Author("Hayden Spitzley", TimeUtils.millis(), 20, 350, true));
+                authors.add(new Author("Hayden Spitzley", TimeUtils.millis(),
+                        game.unscaledX((int)haydenEgg.getX()),
+                        game.unscaledY((int)haydenEgg.getY()), false));
             }
         });
         stage.addActor(haydenEgg);
+
+        //matt: yellow
+        textureUp = new Texture("egg_yellow.png");
+        drawableUp = new SpriteDrawable(new Sprite(textureUp));
+        drawableUp.setMinWidth(0.75f * game.scaledX(textureUp.getWidth()));
+        drawableUp.setMinHeight(0.75f * game.scaledY(textureUp.getHeight()));
+        mattEgg = new ImageButton(drawableUp, drawableUp);
+        mattEgg.setPosition(game.scaledX(395), game.scaledY(220));
+        mattEgg.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                authors.add(new Author("Matt Cloutier", TimeUtils.millis(),
+                        game.unscaledX((int)mattEgg.getX()),
+                        game.unscaledY((int)mattEgg.getY()), true));
+            }
+        });
+        stage.addActor(mattEgg);
+
+        //katie: purple
+        textureUp = new Texture("egg_purple.png");
+        drawableUp = new SpriteDrawable(new Sprite(textureUp));
+        drawableUp.setMinWidth(0.75f * game.scaledX(textureUp.getWidth()));
+        drawableUp.setMinHeight(0.75f * game.scaledY(textureUp.getHeight()));
+        katieEgg = new ImageButton(drawableUp, drawableUp);
+        katieEgg.setPosition(game.scaledX(385), game.scaledY(25));
+        katieEgg.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                authors.add(new Author("Kaitlyn Frank", TimeUtils.millis(),
+                        game.unscaledX((int)katieEgg.getX()),
+                        game.unscaledY((int)katieEgg.getY()), true));
+            }
+        });
+        stage.addActor(katieEgg);
+
+        //ali: blue
+        textureUp = new Texture("egg_blue.png");
+        drawableUp = new SpriteDrawable(new Sprite(textureUp));
+        drawableUp.setMinWidth(0.75f * game.scaledX(textureUp.getWidth()));
+        drawableUp.setMinHeight(0.75f * game.scaledY(textureUp.getHeight()));
+        aliEgg = new ImageButton(drawableUp, drawableUp);
+        aliEgg.setPosition(game.scaledX(152), game.scaledY(372));
+        aliEgg.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                authors.add(new Author(" Ali Abdulhamid", TimeUtils.millis(),
+                        game.unscaledX((int)aliEgg.getX()),
+                        game.unscaledY((int)aliEgg.getY()), false));
+            }
+        });
+        stage.addActor(aliEgg);
+
+        //daniel: green
+        textureUp = new Texture("egg_green.png");
+        drawableUp = new SpriteDrawable(new Sprite(textureUp));
+        drawableUp.setMinWidth(0.75f * game.scaledX(textureUp.getWidth()));
+        drawableUp.setMinHeight(0.75f * game.scaledY(textureUp.getHeight()));
+        danielEgg = new ImageButton(drawableUp, drawableUp);
+        danielEgg.setPosition(game.scaledX(45), game.scaledY(320));
+        danielEgg.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                authors.add(new Author("Daniel Miller", TimeUtils.millis(),
+                        game.unscaledX((int)danielEgg.getX()),
+                        game.unscaledY((int)danielEgg.getY()), false));
+            }
+        });
+        stage.addActor(danielEgg);
     }
 
     private void addButtons(){
@@ -212,14 +284,14 @@ public class Welcome implements Screen {
 
         batch.draw(backgroundImage, background.x, background.y);
 
-        for(Author author : authors){
-            if(TimeUtils.millis() > author.timeCreated + 3000)
-                authors.removeValue(author, false);
-            else {
-                author.draw(batch);
-                authorFont.draw(batch, author.name, author.x, author.y);
-            }
-        }
+//        for(Author author : authors){
+//            if(TimeUtils.millis() > author.timeCreated + 3000)
+//                authors.removeValue(author, false);
+//            else {
+//                author.draw(batch);
+//                authorFont.draw(batch, author.name, author.x, author.y);
+//            }
+//        }
 
         batch.end();
     }
@@ -232,6 +304,17 @@ public class Welcome implements Screen {
         drawBatch();
         stage.act();
         stage.draw();
+
+        batch.begin();
+        for(Author author : authors){
+            if(TimeUtils.millis() > author.timeCreated + 3000)
+                authors.removeValue(author, false);
+            else {
+                author.draw(batch);
+                authorFont.draw(batch, author.name, author.x, author.y);
+            }
+        }
+        batch.end();
     }
 
     @Override

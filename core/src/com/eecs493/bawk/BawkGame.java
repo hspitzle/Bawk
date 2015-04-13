@@ -46,7 +46,7 @@ public class BawkGame extends Game
     int difficulty;
 
     public enum Difficulty {
-        EASY(4000), MEDIUM(3000), HARD(2000);
+        EASY(4000), MEDIUM(2600), HARD(1200);
         private int value;
 
         Difficulty(int value) {
@@ -120,8 +120,16 @@ public class BawkGame extends Game
         return (int)(pixels * (Gdx.graphics.getWidth() / (float) width));
     }
 
+    public int unscaledX(int pixels){
+        return (int)(pixels * ((float) width / Gdx.graphics.getWidth()));
+    }
+
     public int scaledY(int pixels){
         return (int)(pixels * (Gdx.graphics.getHeight() / (float)height));
+    }
+
+    public int unscaledY(int pixels){
+        return (int)(pixels * ((float) height / Gdx.graphics.getHeight()));
     }
 
     public Point gridLocation()
