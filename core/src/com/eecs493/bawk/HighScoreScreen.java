@@ -36,6 +36,8 @@ public class HighScoreScreen implements Screen {
 
     private BitmapFont font;
 
+    private Music endMusic;
+
     private Stage stage;
     private ImageButton retryButton;
     private ImageButton homeButton;
@@ -80,9 +82,9 @@ public class HighScoreScreen implements Screen {
         else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
+        endMusic = Gdx.audio.newMusic(Gdx.files.internal("highscoremusic.mp3"));
+
         if (game.musicOnFlag) {
-            //game.music.setPosition(0f);
-            Music endMusic = Gdx.audio.newMusic(Gdx.files.internal("highscoremusic.mp3"));
             endMusic.setLooping(true);
             endMusic.play();
         }
@@ -112,7 +114,7 @@ public class HighScoreScreen implements Screen {
         retryButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.music.stop();
+                endMusic.stop();
                 game.setScreen(game.play);
             }
         });
@@ -133,7 +135,12 @@ public class HighScoreScreen implements Screen {
         homeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                endMusic.stop();
                 game.setScreen(game.welcome);
+                if (game.musicOnFlag) {
+                    game.music.setPosition(0f);
+                    game.music.play();
+                }
             }
         });
 
