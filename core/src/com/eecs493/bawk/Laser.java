@@ -13,8 +13,9 @@ public class Laser extends Sprite {
     private int speed = 20;
     private Color color;
     private boolean reversed;
+    int comboSize;
 
-    public Laser(){ }
+    public Laser(){ comboSize = 0; }
 
     public void negateSpeed(){
         speed *= -1;
