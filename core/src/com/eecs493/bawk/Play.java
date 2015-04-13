@@ -192,12 +192,13 @@ public class Play implements Screen {
         Texture pauseTextureDown = new Texture("pause2.png");
         SpriteDrawable pauseDrawableUp = new SpriteDrawable(new Sprite(pauseTextureUp));
         SpriteDrawable pauseDrawableDown = new SpriteDrawable(new Sprite(pauseTextureDown));
-        pauseDrawableUp.setMinHeight(Gdx.graphics.getWidth()/10);
-        pauseDrawableUp.setMinWidth(Gdx.graphics.getWidth()/10);
-        pauseDrawableDown.setMinHeight(Gdx.graphics.getWidth()/10);
-        pauseDrawableDown.setMinWidth(Gdx.graphics.getWidth()/10);
+        float scale = 0.8f;
+        pauseDrawableUp.setMinHeight(scale * game.scaledY(pauseTextureUp.getHeight()));
+        pauseDrawableUp.setMinWidth(scale * game.scaledX(pauseTextureUp.getWidth()));
+        pauseDrawableDown.setMinHeight(scale * game.scaledY(pauseTextureDown.getHeight()));
+        pauseDrawableDown.setMinWidth(scale * game.scaledX(pauseTextureDown.getWidth()));
         pauseButton = new ImageButton(pauseDrawableUp, pauseDrawableDown, pauseDrawableDown);
-        pauseButton.setPosition(20 + 29*Gdx.graphics.getWidth()/34, Gdx.graphics.getHeight() - Gdx.graphics.getWidth()/10);
+        pauseButton.setPosition(game.scaledX(415), game.scaledY(730));
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         pauseButton.addListener(new ChangeListener() {
             @Override
