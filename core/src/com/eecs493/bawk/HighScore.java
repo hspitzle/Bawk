@@ -14,18 +14,21 @@ public class HighScore {
 
     public HighScore(BawkGame game_){
         game = game_;
-        highscoreString = "highscore"+game.difficulty;
+        if(!game.puzzleFlag) highscoreString = "highscore"+game.difficulty;
+        else highscoreString = "highscorePuzzle";
         prefs = Gdx.app.getPreferences("My Preferences");
     }
 
     public int getHighScore(){
-        highscoreString = "highscore"+game.difficulty;
+        if(!game.puzzleFlag) highscoreString = "highscore"+game.difficulty;
+        else highscoreString = "highscorePuzzle";
         highscore = prefs.getInteger(highscoreString, 0);
         return highscore;
     }
 
     public void setHighScore(int finalScore){
-        highscoreString = "highscore"+game.difficulty;
+        if(!game.puzzleFlag) highscoreString = "highscore"+game.difficulty;
+        else highscoreString = "highscorePuzzle";
         highscore = prefs.getInteger(highscoreString, 0);
         if(highscore == 0 || highscore < finalScore){
             prefs.putInteger(highscoreString, finalScore);
