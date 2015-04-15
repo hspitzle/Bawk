@@ -86,6 +86,7 @@ public class HighScoreScreen implements Screen {
 
         if (game.musicOnFlag) {
             endMusic.setLooping(true);
+            game.music.stop();
             endMusic.play();
         }
 
