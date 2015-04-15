@@ -226,8 +226,10 @@ public class Welcome implements Screen {
                 //  playButton.setTouchable(Touchable.disabled);
                 //  howToButton.setTouchable(Touchable.disabled);
                 //  settingsButton.setTouchable(Touchable.disabled);
+
                 game.music.stop();
-                game.setScreen(game.play);
+//                game.setScreen(game.play);
+                game.setScreen(game.modeScreen);
             }
         });
         Texture helpTextureUp = new Texture("help.png");

@@ -227,6 +227,8 @@ public class Play implements Screen {
 
                     bawk.moveUp(movement);
                     keepWithinBounds();
+                    if(game.puzzleFlag)
+                        spawnEgg();
                 }
 
                 @Override
@@ -236,6 +238,8 @@ public class Play implements Screen {
 
                     bawk.moveRight(movement);
                     keepWithinBounds();
+                    if(game.puzzleFlag)
+                        spawnEgg();
                 }
 
                 @Override
@@ -245,6 +249,8 @@ public class Play implements Screen {
 
                     bawk.moveLeft(movement);
                     keepWithinBounds();
+                    if(game.puzzleFlag)
+                        spawnEgg();
                 }
 
                 @Override
@@ -254,6 +260,8 @@ public class Play implements Screen {
 
                     bawk.moveDown(movement);
                     keepWithinBounds();
+                    if(game.puzzleFlag)
+                        spawnEgg();
                 }
 
             });
@@ -354,7 +362,7 @@ public class Play implements Screen {
         detectOverlaps();
 
         // check if we need to create a new egg
-        if(TimeUtils.millis() - lastEggTime > eggTimer) {
+        if(!game.puzzleFlag && TimeUtils.millis() - lastEggTime > eggTimer) {
             spawnEgg();
             lastEggTime = TimeUtils.millis();
             timeCounter++;

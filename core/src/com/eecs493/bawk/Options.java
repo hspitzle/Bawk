@@ -58,7 +58,6 @@ public class Options implements Screen {
     ButtonGroup difficultyButtons;
     ButtonGroup modeButtons;
 
-
     public Options(BawkGame game_){
         game = game_;
     }

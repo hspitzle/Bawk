@@ -17,6 +17,7 @@ public class BawkGame extends Game
     Welcome welcome;
     HowTo howTo;
     Options options;
+    ModeScreen modeScreen;
     Play play;
     GameOver gameOver;
     HighScoreScreen highScoreScreen;
@@ -36,6 +37,8 @@ public class BawkGame extends Game
     boolean swipeFlag;
 
     boolean firstTimeFlag;
+
+    boolean puzzleFlag = true;
 
     private Preferences prefs;
 
@@ -103,6 +106,7 @@ public class BawkGame extends Game
         gameOver = new GameOver(this);
         highScoreScreen = new HighScoreScreen(this);
         introScreen = new IntroScreen(this);
+        modeScreen = new ModeScreen(this);
 
         if(firstTimeFlag){
             setScreen(introScreen);
