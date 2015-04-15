@@ -137,11 +137,11 @@ public class HighScoreScreen implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 endMusic.stop();
-                game.setScreen(game.welcome);
                 if (game.musicOnFlag) {
                     game.music.setPosition(0f);
                     game.music.play();
                 }
+                game.setScreen(game.welcome);
             }
         });
 

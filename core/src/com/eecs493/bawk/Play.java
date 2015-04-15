@@ -417,6 +417,7 @@ public class Play implements Screen {
 
                 quitFlag = false;
                 game.pausedFlag = false;
+                gameplayMusic.stop();
                 game.setScreen(game.welcome);
 
             }
