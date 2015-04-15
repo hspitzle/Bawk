@@ -146,7 +146,7 @@ public class Play implements Screen {
         Texture scorePanelTexture = new Texture("scorepanel.png");
         scorePanel = new Sprite(scorePanelTexture);
         scorePanel.setSize(scorePanelTexture.getWidth(), scorePanelTexture.getHeight());
-        scorePanel.setPosition(game.getWidth()/2 - scorePanelTexture.getWidth()/2, 20);
+        scorePanel.setPosition(game.getWidth() / 2 - scorePanelTexture.getWidth() / 2, 20);
         scorePanel.setScale(1.4f, 1f);
 
         Texture signTexture = new Texture("sign2.png");
@@ -517,8 +517,9 @@ public class Play implements Screen {
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
-        if (game.soundEffectsOnFlag == false) //the user has muted the sound effects
+        if (game.soundEffectsOnFlag == false) { //the user has muted the sound effects
             muteSoundsButton.toggle();
+        }
 
         muteSoundsButton.addListener(new ChangeListener() {
             @Override
@@ -539,6 +540,8 @@ public class Play implements Screen {
                     game.soundEffectsOnFlag = false;
                 else
                     game.soundEffectsOnFlag = true;
+
+                game.setSoundFXPref(game.soundEffectsOnFlag);
             }
         });
 
@@ -580,6 +583,8 @@ public class Play implements Screen {
                     game.musicOnFlag = true;
                     gameplayMusic.play();
                 }
+
+                game.setMusicPref(game.musicOnFlag);
             }
         });
 
