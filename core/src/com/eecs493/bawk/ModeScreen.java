@@ -40,7 +40,7 @@ public class ModeScreen implements Screen {
     private Music endMusic;
 
     private Stage stage;
-    private ImageButton normalButton;
+    private ImageButton classicButton;
     private ImageButton puzzleButton;
     private ButtonGroup modeButtons;
 
@@ -89,65 +89,57 @@ public class ModeScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //TODO: change to normal mode button
+        float scale = 1.5f;
+
         Texture normTextureUp = new Texture("classic.png");
         Texture normTextureDown = new Texture("classic2.png");
         SpriteDrawable normDrawableUp = new SpriteDrawable(new Sprite(normTextureUp));
         SpriteDrawable normDrawableDown = new SpriteDrawable(new Sprite(normTextureDown));
-        normDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
-        normDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        normDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
-        normDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        normalButton = new ImageButton(normDrawableUp, normDrawableDown);
-        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
-        //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        normalButton.setPosition(Gdx.graphics.getWidth() / 5 + Gdx.graphics.getHeight() / 32, Gdx.graphics.getWidth() / 16 + Gdx.graphics.getHeight() / 7 + 70);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
-        normalButton.addListener(new ChangeListener() {
+        normDrawableUp.setMinHeight(scale * game.scaledY(normTextureUp.getHeight()));
+        normDrawableUp.setMinWidth(scale * game.scaledX(normTextureUp.getWidth()));
+        normDrawableDown.setMinHeight(scale * game.scaledY(normTextureDown.getHeight()));
+        normDrawableDown.setMinWidth(scale * game.scaledX(normTextureDown.getWidth()));
+        classicButton = new ImageButton(normDrawableUp, normDrawableDown);
+        classicButton.setPosition(game.scaledX(game.getWidth() / 2 - (int) (scale * normTextureUp.getWidth() / 2)), game.scaledY(170));
+        classicButton = new ImageButton(normDrawableUp, normDrawableDown);
+        classicButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*normTextureUp.getWidth()/2)), game.scaledY(170));
+        classicButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                //normalButton.toggle();
+                //classicButton.toggle();
                 game.puzzleFlag = false;
-//                normalButton.toggle();
-                //TODO: change background texture
                 backgroundImage = background1;
             }
         });
 
-        //TODO: change to puzzle mode button
         Texture puzzleTextureUp = new Texture("puzzle.png");
         Texture puzzleTextureDown = new Texture("puzzle2.png");
         SpriteDrawable puzzleDrawableUp = new SpriteDrawable(new Sprite(puzzleTextureUp));
         SpriteDrawable puzzleDrawableDown = new SpriteDrawable(new Sprite(puzzleTextureDown));
-        puzzleDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
-        puzzleDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        puzzleDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
-        puzzleDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        puzzleDrawableUp.setMinHeight(scale * game.scaledY(puzzleTextureUp.getHeight()));
+        puzzleDrawableUp.setMinWidth(scale * game.scaledX(puzzleTextureUp.getWidth()));
+        puzzleDrawableDown.setMinHeight(scale * game.scaledY(puzzleTextureDown.getHeight()));
+        puzzleDrawableDown.setMinWidth(scale * game.scaledX(puzzleTextureDown.getWidth()));
         puzzleButton = new ImageButton(puzzleDrawableUp, puzzleDrawableDown);
-        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
-        //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        puzzleButton.setPosition(Gdx.graphics.getWidth() / 5 + Gdx.graphics.getHeight() / 32, Gdx.graphics.getHeight() / 7 - Gdx.graphics.getWidth() / 7 + 15);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        puzzleButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*puzzleTextureUp.getWidth()/2)), game.scaledY(60));
         puzzleButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                // puzzleButton.toggle();
                 game.puzzleFlag = true;
-//                puzzleButton.toggle();
-                //TODO: change background texture
                 backgroundImage = background2;
             }
         });
 
         modeButtons = new ButtonGroup();
-        modeButtons.add(normalButton);
+        modeButtons.add(classicButton);
         modeButtons.add(puzzleButton);
         modeButtons.setMaxCheckCount(1); //only one difficulty choice can be selected ata  time
 
-        stage.addActor(normalButton);
+        stage.addActor(classicButton);
         stage.addActor(puzzleButton);
 
-        float scale = 0.8f;
+        float smallscale = 0.8f;
         int offset = 25;
 
         //home button initializing
@@ -155,10 +147,10 @@ public class ModeScreen implements Screen {
         Texture homeTextureDown = new Texture("home2.png");
         SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
         SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
-        homeDrawableUp.setMinHeight(scale * game.scaledY(homeTextureUp.getHeight()));
-        homeDrawableUp.setMinWidth(scale * game.scaledX(homeTextureUp.getWidth()));
-        homeDrawableDown.setMinHeight(scale * game.scaledY(homeTextureDown.getHeight()));
-        homeDrawableDown.setMinWidth(scale * game.scaledX(homeTextureDown.getWidth()));
+        homeDrawableUp.setMinHeight(smallscale * game.scaledY(homeTextureUp.getHeight()));
+        homeDrawableUp.setMinWidth(smallscale * game.scaledX(homeTextureUp.getWidth()));
+        homeDrawableDown.setMinHeight(smallscale * game.scaledY(homeTextureDown.getHeight()));
+        homeDrawableDown.setMinWidth(smallscale * game.scaledX(homeTextureDown.getWidth()));
         homeButton = new ImageButton(homeDrawableUp, homeDrawableDown, homeDrawableDown);
         homeButton.setPosition(
                 game.scaledX(offset),
@@ -177,13 +169,13 @@ public class ModeScreen implements Screen {
         Texture playTextureDown = new Texture("check2.png");
         SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
         SpriteDrawable playDrawableDown = new SpriteDrawable(new Sprite(playTextureDown));
-        playDrawableUp.setMinHeight(scale * game.scaledY(playTextureUp.getHeight()));
-        playDrawableUp.setMinWidth(scale * game.scaledX(playTextureUp.getWidth()));
-        playDrawableDown.setMinHeight(scale * game.scaledY(playTextureDown.getHeight()));
-        playDrawableDown.setMinWidth(scale * game.scaledX(playTextureDown.getWidth()));
+        playDrawableUp.setMinHeight(smallscale * game.scaledY(playTextureUp.getHeight()));
+        playDrawableUp.setMinWidth(smallscale * game.scaledX(playTextureUp.getWidth()));
+        playDrawableDown.setMinHeight(smallscale * game.scaledY(playTextureDown.getHeight()));
+        playDrawableDown.setMinWidth(smallscale * game.scaledX(playTextureDown.getWidth()));
         playButton = new ImageButton(playDrawableUp, playDrawableDown, playDrawableDown);
         playButton.setPosition(
-                game.scaledX(game.getWidth() - (int)(scale*playTextureUp.getWidth()) - offset),
+                game.scaledX(game.getWidth() - (int)(smallscale*playTextureUp.getWidth()) - offset),
                 Gdx.graphics.getWidth()/17);
 
         playButton.addListener(new ChangeListener() {
@@ -227,7 +219,7 @@ public class ModeScreen implements Screen {
     @Override
     public void hide() {
         // called when current screen changes from this to a different screen
-        normalButton.setTouchable(Touchable.disabled);
+        classicButton.setTouchable(Touchable.disabled);
         puzzleButton.setTouchable(Touchable.disabled);
     }
 
@@ -246,7 +238,7 @@ public class ModeScreen implements Screen {
 
     @Override
     public void resume() {
-        normalButton.setTouchable(Touchable.enabled);
+        classicButton.setTouchable(Touchable.enabled);
         puzzleButton.setTouchable(Touchable.enabled);
     }
 
