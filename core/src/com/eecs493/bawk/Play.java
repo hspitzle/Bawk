@@ -200,7 +200,7 @@ public class Play implements Screen {
         pauseDrawableUp.setMinWidth(scale * game.scaledX(pauseTextureUp.getWidth()));
         pauseDrawableDown.setMinHeight(scale * game.scaledY(pauseTextureDown.getHeight()));
         pauseDrawableDown.setMinWidth(scale * game.scaledX(pauseTextureDown.getWidth()));
-        pauseButton = new ImageButton(pauseDrawableUp, pauseDrawableDown, pauseDrawableDown);
+        pauseButton = new ImageButton(pauseDrawableUp, pauseDrawableDown);
         pauseButton.setPosition(game.scaledX(415), game.scaledY(730));
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
         pauseButton.addListener(new ChangeListener() {
