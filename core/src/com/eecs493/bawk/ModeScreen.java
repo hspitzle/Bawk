@@ -101,12 +101,11 @@ public class ModeScreen implements Screen {
         normDrawableDown.setMinWidth(scale * game.scaledX(normTextureDown.getWidth()));
         classicButton = new ImageButton(normDrawableUp, normDrawableDown);
         classicButton.setPosition(game.scaledX(game.getWidth() / 2 - (int) (scale * normTextureUp.getWidth() / 2)), game.scaledY(170));
-        classicButton = new ImageButton(normDrawableUp, normDrawableDown);
+        classicButton = new ImageButton(normDrawableUp, normDrawableDown, normDrawableDown);
         classicButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*normTextureUp.getWidth()/2)), game.scaledY(170));
         classicButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                //classicButton.toggle();
                 game.puzzleFlag = false;
                 backgroundImage = background1;
             }
@@ -120,12 +119,11 @@ public class ModeScreen implements Screen {
         puzzleDrawableUp.setMinWidth(scale * game.scaledX(puzzleTextureUp.getWidth()));
         puzzleDrawableDown.setMinHeight(scale * game.scaledY(puzzleTextureDown.getHeight()));
         puzzleDrawableDown.setMinWidth(scale * game.scaledX(puzzleTextureDown.getWidth()));
-        puzzleButton = new ImageButton(puzzleDrawableUp, puzzleDrawableDown);
+        puzzleButton = new ImageButton(puzzleDrawableUp, puzzleDrawableDown, puzzleDrawableDown);
         puzzleButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*puzzleTextureUp.getWidth()/2)), game.scaledY(60));
         puzzleButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               // puzzleButton.toggle();
                 game.puzzleFlag = true;
                 backgroundImage = background2;
             }
