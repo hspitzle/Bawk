@@ -65,7 +65,7 @@ public class IntroScreen implements Screen {
         homeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(game.welcome); //return to the home screen
+                game.setScreen(game.howTo); //return to the home screen
             }
         });
 
