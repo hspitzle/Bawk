@@ -30,6 +30,8 @@ public class ModeScreen implements Screen {
     private SpriteBatch batch;
 
     private Texture backgroundImage;
+    private Texture background1;
+    private Texture background2;
     private Rectangle background;
 
 
@@ -55,7 +57,9 @@ public class ModeScreen implements Screen {
     @Override
     public void show()
     {
-        backgroundImage = new Texture("gamebackground.png");
+        background1 = new Texture("classicselectscreen.png");
+        background2 = new Texture("puzzleselectscreen.png");
+        backgroundImage = background1;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.getWidth(), game.getHeight());
@@ -86,8 +90,8 @@ public class ModeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //TODO: change to normal mode button
-        Texture normTextureUp = new Texture("retry.png");
-        Texture normTextureDown = new Texture("retry2.png");
+        Texture normTextureUp = new Texture("classic.png");
+        Texture normTextureDown = new Texture("classic2.png");
         SpriteDrawable normDrawableUp = new SpriteDrawable(new Sprite(normTextureUp));
         SpriteDrawable normDrawableDown = new SpriteDrawable(new Sprite(normTextureDown));
         normDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
@@ -102,15 +106,17 @@ public class ModeScreen implements Screen {
         normalButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                //normalButton.toggle();
                 game.puzzleFlag = false;
 //                normalButton.toggle();
                 //TODO: change background texture
+                backgroundImage = background1;
             }
         });
 
         //TODO: change to puzzle mode button
-        Texture puzzleTextureUp = new Texture("scoretohome.png");
-        Texture puzzleTextureDown = new Texture("scoretohome2.png");
+        Texture puzzleTextureUp = new Texture("puzzle.png");
+        Texture puzzleTextureDown = new Texture("puzzle2.png");
         SpriteDrawable puzzleDrawableUp = new SpriteDrawable(new Sprite(puzzleTextureUp));
         SpriteDrawable puzzleDrawableDown = new SpriteDrawable(new Sprite(puzzleTextureDown));
         puzzleDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
@@ -125,9 +131,11 @@ public class ModeScreen implements Screen {
         puzzleButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+               // puzzleButton.toggle();
                 game.puzzleFlag = true;
 //                puzzleButton.toggle();
                 //TODO: change background texture
+                backgroundImage = background2;
             }
         });
 
@@ -202,8 +210,8 @@ public class ModeScreen implements Screen {
 
         batch.draw(backgroundImage, background.x, background.y);
 
-        barnSign.draw(batch);
-        modeSelect.draw(batch);
+//        barnSign.draw(batch);
+  //      modeSelect.draw(batch);
 
         batch.end();
     }

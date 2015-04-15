@@ -612,14 +612,13 @@ public class Play implements Screen {
                             arr.removeValue(egg, false); //destroy the egg
                             ++score;
                             j.comboSize += 1;
-                            System.out.println("Here "+ j.comboSize);
+
                             explosions.add(new Explosion(egg.getX(), egg.getY()));
                             if(game.soundEffectsOnFlag)
                                 eggExplode.play();
                         }
                         else //laser and egg are different colors, so swap them
                         {
-
                             Color temp = egg.getColor();
                             egg.setColor(bawk.getColor());
 //                            bawk.setColor(temp);
@@ -637,8 +636,6 @@ public class Play implements Screen {
             if (j.getBoundingRectangle().overlaps(bawk.getBoundingRectangle())) {
                 if (j.isReversed()) //the laser and the colliding egg have the same color
                 {
-                    System.out.println("There "+ j.comboSize);
-
                     multiplyScore(j.comboSize);
                     bawk.lasers.removeValue(j, false); //destroy the laser
                     bawk.setColor(j.getColor());
