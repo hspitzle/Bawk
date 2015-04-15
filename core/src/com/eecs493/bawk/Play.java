@@ -168,6 +168,9 @@ public class Play implements Screen {
         else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
+        if(game.puzzleFlag)
+            difficultyMode.setTexture(new Texture("puzzlemodetext.png"));
+
         bawk = new Bawk();
         stage = new Stage();
         eggs = new Array<Array<Egg>>();

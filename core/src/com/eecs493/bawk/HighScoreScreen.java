@@ -82,6 +82,9 @@ public class HighScoreScreen implements Screen {
         else if(game.difficulty == BawkGame.Difficulty.HARD.getValue())
             difficultyMode.setTexture(new Texture("texthardmode.png"));
 
+        if(game.puzzleFlag)
+            difficultyMode.setTexture(new Texture("puzzlemodetext.png"));
+
         endMusic = Gdx.audio.newMusic(Gdx.files.internal("highscoremusic.mp3"));
 
         if (game.musicOnFlag) {
