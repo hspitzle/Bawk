@@ -284,17 +284,23 @@ public class Options implements Screen {
             }
         });
 
+        float scale = 1.1f;
+        int offset = 100;
+        int muteYposition = 75;
+
         //muteSounds
         Texture muteSoundsTextureUp = new Texture("mute.png");
         Texture muteSoundsTextureDown = new Texture("mute2.png");
         SpriteDrawable muteSoundsDrawableUp = new SpriteDrawable(new Sprite(muteSoundsTextureUp));
         SpriteDrawable muteSoundsDrawableDown = new SpriteDrawable(new Sprite(muteSoundsTextureDown));
-        muteSoundsDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteSoundsDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
-        muteSoundsDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteSoundsDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteSoundsDrawableUp.setMinHeight(scale * game.scaledY(muteSoundsTextureUp.getHeight()));
+        muteSoundsDrawableUp.setMinWidth(scale * game.scaledX(muteSoundsTextureUp.getWidth()));
+        muteSoundsDrawableDown.setMinHeight(scale * game.scaledY(muteSoundsTextureDown.getHeight()));
+        muteSoundsDrawableDown.setMinWidth(scale * game.scaledX(muteSoundsTextureDown.getWidth()));
         muteSoundsButton = new ImageButton(muteSoundsDrawableUp, muteSoundsDrawableDown, muteSoundsDrawableDown);
-        muteSoundsButton.setPosition(-15 + Gdx.graphics.getWidth()/4 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteSoundsButton.setPosition(
+                game.scaledX(offset),
+                game.scaledY(muteYposition));
         float muteSoundsPosition = tiltPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
@@ -330,12 +336,14 @@ public class Options implements Screen {
         Texture muteMusicTextureDown = new Texture("mute2.png");
         SpriteDrawable muteMusicDrawableUp = new SpriteDrawable(new Sprite(muteMusicTextureUp));
         SpriteDrawable muteMusicDrawableDown = new SpriteDrawable(new Sprite(muteMusicTextureDown));
-        muteMusicDrawableUp.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableUp.setMinWidth(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableDown.setMinHeight(Gdx.graphics.getWidth()/6);
-        muteMusicDrawableDown.setMinWidth(Gdx.graphics.getWidth()/6);
+        muteMusicDrawableUp.setMinHeight(scale * game.scaledY(muteMusicTextureUp.getHeight()));
+        muteMusicDrawableUp.setMinWidth(scale * game.scaledX(muteMusicTextureUp.getWidth()));
+        muteMusicDrawableDown.setMinHeight(scale * game.scaledY(muteMusicTextureDown.getHeight()));
+        muteMusicDrawableDown.setMinWidth(scale * game.scaledX(muteMusicTextureDown.getWidth()));
         muteMusicButton = new ImageButton(muteMusicDrawableUp, muteMusicDrawableDown, muteMusicDrawableDown);
-        muteMusicButton.setPosition(21*Gdx.graphics.getWidth()/32 , tiltPosition - 3*(3*Gdx.graphics.getWidth()/28));
+        muteMusicButton.setPosition(
+                game.scaledX(game.getWidth() - (int)(scale*muteMusicTextureUp.getWidth()) - offset + 10),
+                game.scaledY(muteYposition));
         float muteMusicPosition = muteSoundsPosition - 3*(3*Gdx.graphics.getWidth()/28);
         //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
 
