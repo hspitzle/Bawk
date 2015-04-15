@@ -93,7 +93,7 @@ public class Options implements Screen {
     public void show()
     {
         System.out.println("Show options screen");
-        backgroundImage = new Texture("settingsscreenrevised3.png");
+        backgroundImage = new Texture("settingsscreen.png");
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
