@@ -102,19 +102,18 @@ public class HighScoreScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        float scale = 1.5f;
+
         Texture retryTextureUp = new Texture("retry.png");
         Texture retryTextureDown = new Texture("retry2.png");
         SpriteDrawable retryDrawableUp = new SpriteDrawable(new Sprite(retryTextureUp));
         SpriteDrawable retryDrawableDown = new SpriteDrawable(new Sprite(retryTextureDown));
-        retryDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
-        retryDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        retryDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
-        retryDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        retryDrawableUp.setMinHeight(scale * game.scaledY(retryTextureUp.getHeight()));
+        retryDrawableUp.setMinWidth(scale * game.scaledX(retryTextureUp.getWidth()));
+        retryDrawableDown.setMinHeight(scale * game.scaledY(retryTextureDown.getHeight()));
+        retryDrawableDown.setMinWidth(scale * game.scaledX(retryTextureDown.getWidth()));
         retryButton = new ImageButton(retryDrawableUp, retryDrawableDown);
-        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
-        //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        retryButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        retryButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*retryTextureUp.getWidth()/2)), game.scaledY(170));
         retryButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -127,15 +126,12 @@ public class HighScoreScreen implements Screen {
         Texture homeTextureDown = new Texture("scoretohome2.png");
         SpriteDrawable homeDrawableUp = new SpriteDrawable(new Sprite(homeTextureUp));
         SpriteDrawable homeDrawableDown = new SpriteDrawable(new Sprite(homeTextureDown));
-        homeDrawableUp.setMinHeight(Gdx.graphics.getWidth()/4);
-        homeDrawableUp.setMinWidth(2*Gdx.graphics.getWidth()/4);
-        homeDrawableDown.setMinHeight(Gdx.graphics.getWidth()/4);
-        homeDrawableDown.setMinWidth(2*Gdx.graphics.getWidth()/4);
+        homeDrawableUp.setMinHeight(scale * game.scaledY(homeTextureUp.getHeight()));
+        homeDrawableUp.setMinWidth(scale * game.scaledX(homeTextureUp.getWidth()));
+        homeDrawableDown.setMinHeight(scale * game.scaledY(homeTextureDown.getHeight()));
+        homeDrawableDown.setMinWidth(scale * game.scaledX(homeTextureDown.getWidth()));
         homeButton = new ImageButton(homeDrawableUp, homeDrawableDown);
-        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
-        //playButton = new TextButton("Play!", skin); // Use the initialized skin
-        homeButton.setPosition(Gdx.graphics.getWidth()/5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getHeight()/7 -Gdx.graphics.getWidth()/7 + 15);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        homeButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*retryTextureUp.getWidth()/2)), game.scaledY(60));
         homeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {

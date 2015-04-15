@@ -203,35 +203,26 @@ public class Welcome implements Screen {
     }
 
     private void addButtons(){
+        float scale = 1.5f;
+
         Texture playTextureUp = new Texture("play.png");
         Texture playTextureDown = new Texture("playpressed.png");
         SpriteDrawable playDrawableUp = new SpriteDrawable(new Sprite(playTextureUp));
         SpriteDrawable playDrawableDown = new SpriteDrawable(new Sprite(playTextureDown));
-        playDrawableUp.setMinHeight(1.5f * game.scaledY(playTextureUp.getHeight()));
-        playDrawableUp.setMinWidth(1.5f * game.scaledX(playTextureUp.getWidth()));
-        playDrawableDown.setMinHeight(1.5f * game.scaledY(playTextureDown.getHeight()));
-        playDrawableDown.setMinWidth(1.5f * game.scaledX(playTextureDown.getWidth()));
+        playDrawableUp.setMinHeight(scale * game.scaledY(playTextureUp.getHeight()));
+        playDrawableUp.setMinWidth(scale * game.scaledX(playTextureUp.getWidth()));
+        playDrawableDown.setMinHeight(scale * game.scaledY(playTextureDown.getHeight()));
+        playDrawableDown.setMinWidth(scale * game.scaledX(playTextureDown.getWidth()));
         playButton = new ImageButton(playDrawableUp, playDrawableDown);
-        // playButton.setSize(playButton.getWidth() * 2, playButton.getHeight() * 2);
-        //playButton = new TextButton("Play!", skin); // Use the initialized skin
-
-//        playButton.setPosition(Gdx.graphics.getWidth()/ 5 + Gdx.graphics.getHeight()/32, Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
-        playButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(1.5f*playTextureUp.getWidth()/2)),
-                Gdx.graphics.getWidth()/16 + Gdx.graphics.getHeight()/7 + 70);
-        //playButton.setWidth(2 * Gdx.graphics.getWidth()/3);
+        playButton.setPosition(game.scaledX(game.getWidth()/2 - (int)(scale*playTextureUp.getWidth()/2)), game.scaledY(170));
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-
-                //  playButton.setTouchable(Touchable.disabled);
-                //  howToButton.setTouchable(Touchable.disabled);
-                //  settingsButton.setTouchable(Touchable.disabled);
-
                 game.music.stop();
-//                game.setScreen(game.play);
                 game.setScreen(game.modeScreen);
             }
         });
+
         Texture helpTextureUp = new Texture("help.png");
         Texture helpTextureDown = new Texture("helppressed.png");
         SpriteDrawable helpDrawableUp = new SpriteDrawable(new Sprite(helpTextureUp));
